@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="CAMINHO_DA_LOGO" alt="HealthSync" width="130" />
-
 # 🩺 HealthSync — Acompanhamento Cardiometabólico
 
 **Dos dados de saúde à análise: exploração de indicadores glicêmicos, pressão arterial, perfil cardiometabólico e desenvolvimento de modelos de Machine Learning.**
