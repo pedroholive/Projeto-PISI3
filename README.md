@@ -22,23 +22,6 @@ Entre os principais objetivos estão:
 
 ---
 
-## 📱 Funcionalidades previstas
-
-O HealthSync está sendo desenvolvido para oferecer funcionalidades como:
-
-- registro de glicemia;
-- registro de pressão arterial sistólica e diastólica;
-- histórico das medições do usuário;
-- visualização da evolução dos indicadores;
-- cadastro de informações relacionadas ao perfil e estilo de vida;
-- análise do perfil cardiometabólico;
-- estimativa de risco relacionada a diabetes;
-- estimativa de risco relacionada a hipertensão.
-
-As funcionalidades relacionadas a Machine Learning ainda estão em desenvolvimento e dependem da definição, treinamento e validação dos modelos.
-
----
-
 ## 📊 Dados utilizados
 
 Para a etapa de análise de dados e desenvolvimento dos modelos, o projeto utiliza dados do **National Health and Nutrition Examination Survey (NHANES), ciclo agosto de 2021 a agosto de 2023**.
@@ -157,23 +140,6 @@ Essa distinção também será considerada na definição das variáveis utiliza
 
 ---
 
-## 🤖 Machine Learning
-
-A etapa de Machine Learning está em desenvolvimento.
-
-A proposta é estudar inicialmente dois problemas separados:
-
-- estimativa relacionada ao risco de diabetes;
-- estimativa relacionada ao risco de hipertensão.
-
-Antes do treinamento dos modelos serão definidas as variáveis-alvo e as características preditoras utilizadas em cada problema.
-
-Um cuidado importante será evitar **data leakage**. Caso uma medida clínica seja utilizada diretamente para construir uma variável-alvo, essa mesma informação não deverá ser utilizada de forma circular como preditora do alvo.
-
-Os modelos serão avaliados antes de sua integração ao HealthSync.
-
----
-
 ## 🔄 NHANES × HealthSync
 
 É importante diferenciar o papel dos dados utilizados no desenvolvimento do projeto.
@@ -202,7 +168,7 @@ O projeto utiliza ou prevê a utilização das seguintes tecnologias:
 - Jupyter Notebook
 - Git
 - GitHub
-
+  
 ---
 
 ## 📂 Estrutura do projeto
