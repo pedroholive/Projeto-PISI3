@@ -6,10 +6,6 @@ import plotly.express as px
 from dash import Input, Output, callback, dcc, html
 
 
-# ============================================================
-# REGISTRO DA PÁGINA
-# ============================================================
-
 dash.register_page(
     __name__,
     path="/eda",
@@ -17,10 +13,6 @@ dash.register_page(
     order=1
 )
 
-
-# ============================================================
-# CARREGAMENTO DOS DADOS
-# ============================================================
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
@@ -33,15 +25,7 @@ DATA_PATH = (
 df = pd.read_csv(DATA_PATH)
 
 
-# ============================================================
-# FUNÇÕES AUXILIARES
-# ============================================================
-
 def filtrar_dados(sexo):
-    """
-    Retorna o dataframe completo ou filtrado pelo sexo selecionado.
-    """
-
     if sexo == "Todos":
         return df.copy()
 
@@ -49,20 +33,10 @@ def filtrar_dados(sexo):
 
 
 def formatar_inteiro(valor):
-    """
-    Formata números inteiros no padrão brasileiro.
-    Exemplo: 5283 -> 5.283
-    """
-
     return f"{int(valor):,}".replace(",", ".")
 
 
 def formatar_decimal(valor, unidade=""):
-    """
-    Formata números decimais com uma casa decimal.
-    Exemplo: 54.0 -> 54,0
-    """
-
     valor_formatado = f"{valor:.1f}".replace(".", ",")
 
     if unidade:
@@ -71,19 +45,12 @@ def formatar_decimal(valor, unidade=""):
     return valor_formatado
 
 
-# ============================================================
-# FUNÇÕES PARA CRIAÇÃO DOS GRÁFICOS
-# ============================================================
-
 def criar_fig_hba1c(dados):
-
     fig = px.histogram(
         dados.dropna(subset=["hba1c"]),
         x="hba1c",
         nbins=30,
-        labels={
-            "hba1c": "HbA1c (%)"
-        }
+        labels={"hba1c": "HbA1c (%)"}
     )
 
     fig.update_layout(
@@ -92,29 +59,18 @@ def criar_fig_hba1c(dados):
         yaxis_title="Número de participantes",
         plot_bgcolor="white",
         paper_bgcolor="white",
-        margin=dict(
-            l=40,
-            r=20,
-            t=20,
-            b=40
-        ),
+        margin=dict(l=40, r=20, t=20, b=40),
         showlegend=False
     )
 
-    fig.update_traces(
-        marker_color="#0E766D"
-    )
+    fig.update_traces(marker_color="#0E766D")
 
     return fig
 
 
 def criar_fig_hba1c_diabetes(dados):
-
     dados_grafico = dados.dropna(
-        subset=[
-            "hba1c",
-            "diabetes_informado"
-        ]
+        subset=["hba1c", "diabetes_informado"]
     )
 
     fig = px.box(
@@ -122,11 +78,7 @@ def criar_fig_hba1c_diabetes(dados):
         x="diabetes_informado",
         y="hba1c",
         category_orders={
-            "diabetes_informado": [
-                "Nao",
-                "Borderline",
-                "Sim"
-            ]
+            "diabetes_informado": ["Nao", "Borderline", "Sim"]
         },
         labels={
             "diabetes_informado": "Diabetes informado",
@@ -140,12 +92,7 @@ def criar_fig_hba1c_diabetes(dados):
         yaxis_title="HbA1c (%)",
         plot_bgcolor="white",
         paper_bgcolor="white",
-        margin=dict(
-            l=40,
-            r=20,
-            t=20,
-            b=40
-        ),
+        margin=dict(l=40, r=20, t=20, b=40),
         showlegend=False
     )
 
@@ -158,7 +105,6 @@ def criar_fig_hba1c_diabetes(dados):
 
 
 def criar_fig_pressao_sistolica(dados):
-
     fig = px.histogram(
         dados.dropna(subset=["pressao_sistolica"]),
         x="pressao_sistolica",
@@ -174,24 +120,16 @@ def criar_fig_pressao_sistolica(dados):
         yaxis_title="Número de participantes",
         plot_bgcolor="white",
         paper_bgcolor="white",
-        margin=dict(
-            l=40,
-            r=20,
-            t=20,
-            b=40
-        ),
+        margin=dict(l=40, r=20, t=20, b=40),
         showlegend=False
     )
 
-    fig.update_traces(
-        marker_color="#0E766D"
-    )
+    fig.update_traces(marker_color="#0E766D")
 
     return fig
 
 
 def criar_fig_pressao_hipertensao(dados):
-
     dados_grafico = dados.dropna(
         subset=[
             "pressao_sistolica",
@@ -212,10 +150,7 @@ def criar_fig_pressao_hipertensao(dados):
         x="hipertensao_label",
         y="pressao_sistolica",
         category_orders={
-            "hipertensao_label": [
-                "Não",
-                "Sim"
-            ]
+            "hipertensao_label": ["Não", "Sim"]
         },
         labels={
             "hipertensao_label": "Hipertensão informada",
@@ -229,12 +164,7 @@ def criar_fig_pressao_hipertensao(dados):
         yaxis_title="Pressão sistólica (mmHg)",
         plot_bgcolor="white",
         paper_bgcolor="white",
-        margin=dict(
-            l=40,
-            r=20,
-            t=20,
-            b=40
-        ),
+        margin=dict(l=40, r=20, t=20, b=40),
         showlegend=False
     )
 
@@ -247,7 +177,6 @@ def criar_fig_pressao_hipertensao(dados):
 
 
 def criar_fig_colesterol(dados):
-
     fig = px.histogram(
         dados.dropna(subset=["colesterol_total"]),
         x="colesterol_total",
@@ -263,24 +192,16 @@ def criar_fig_colesterol(dados):
         yaxis_title="Número de participantes",
         plot_bgcolor="white",
         paper_bgcolor="white",
-        margin=dict(
-            l=40,
-            r=20,
-            t=20,
-            b=40
-        ),
+        margin=dict(l=40, r=20, t=20, b=40),
         showlegend=False
     )
 
-    fig.update_traces(
-        marker_color="#0E766D"
-    )
+    fig.update_traces(marker_color="#0E766D")
 
     return fig
 
 
 def criar_fig_colesterol_informado(dados):
-
     dados_grafico = dados.dropna(
         subset=[
             "colesterol_total",
@@ -303,10 +224,7 @@ def criar_fig_colesterol_informado(dados):
         box=True,
         points=False,
         category_orders={
-            "colesterol_alto_label": [
-                "Não",
-                "Sim"
-            ]
+            "colesterol_alto_label": ["Não", "Sim"]
         },
         labels={
             "colesterol_alto_label": "Colesterol alto informado",
@@ -320,12 +238,7 @@ def criar_fig_colesterol_informado(dados):
         yaxis_title="Colesterol total (mg/dL)",
         plot_bgcolor="white",
         paper_bgcolor="white",
-        margin=dict(
-            l=40,
-            r=20,
-            t=20,
-            b=40
-        ),
+        margin=dict(l=40, r=20, t=20, b=40),
         showlegend=False
     )
 
@@ -338,7 +251,6 @@ def criar_fig_colesterol_informado(dados):
 
 
 def criar_fig_correlacao(dados):
-
     colunas_correlacao = [
         "imc",
         "hba1c",
@@ -370,46 +282,28 @@ def criar_fig_correlacao(dados):
         color_continuous_scale="RdBu_r",
         zmin=-1,
         zmax=1,
-        labels={
-            "color": "Correlação"
-        }
+        labels={"color": "Correlação"}
     )
 
     fig.update_layout(
         title=None,
         plot_bgcolor="white",
         paper_bgcolor="white",
-        margin=dict(
-            l=40,
-            r=20,
-            t=20,
-            b=40
-        ),
-        coloraxis_colorbar=dict(
-            title="Correlação"
-        )
+        margin=dict(l=40, r=20, t=20, b=40),
+        coloraxis_colorbar=dict(title="Correlação")
     )
 
     return fig
 
 
-# ============================================================
-# LAYOUT DA PÁGINA
-# ============================================================
-
 layout = html.Div(
     [
-        # ----------------------------------------------------
-        # CABEÇALHO
-        # ----------------------------------------------------
-
         html.Div(
             [
                 html.H1(
                     "Análise Exploratória dos Dados",
                     className="eda-title"
                 ),
-
                 html.P(
                     "Explore os principais indicadores "
                     "cardiometabólicos da amostra.",
@@ -418,10 +312,6 @@ layout = html.Div(
             ],
             className="eda-header"
         ),
-
-        # ----------------------------------------------------
-        # FILTROS
-        # ----------------------------------------------------
 
         html.Div(
             [
@@ -432,7 +322,6 @@ layout = html.Div(
                             htmlFor="filtro-sexo",
                             className="eda-filter-label"
                         ),
-
                         dcc.Dropdown(
                             id="filtro-sexo",
                             options=[
@@ -461,10 +350,6 @@ layout = html.Div(
             className="eda-filter-card"
         ),
 
-        # ----------------------------------------------------
-        # VISÃO GERAL
-        # ----------------------------------------------------
-
         html.H2(
             "Visão geral da amostra",
             className="eda-section-title"
@@ -478,7 +363,6 @@ layout = html.Div(
                             "Participantes",
                             className="eda-card-label"
                         ),
-
                         html.H3(
                             id="card-participantes",
                             className="eda-card-value"
@@ -493,7 +377,6 @@ layout = html.Div(
                             "Idade média",
                             className="eda-card-label"
                         ),
-
                         html.H3(
                             id="card-idade-media",
                             className="eda-card-value"
@@ -508,7 +391,6 @@ layout = html.Div(
                             "IMC médio",
                             className="eda-card-label"
                         ),
-
                         html.H3(
                             id="card-imc-medio",
                             className="eda-card-value"
@@ -519,10 +401,6 @@ layout = html.Div(
             ],
             className="eda-cards"
         ),
-
-        # ----------------------------------------------------
-        # PERFIL GLICÊMICO
-        # ----------------------------------------------------
 
         html.H2(
             "Perfil glicêmico",
@@ -537,18 +415,14 @@ layout = html.Div(
                             "Distribuição de HbA1c",
                             className="eda-chart-title"
                         ),
-
                         html.P(
                             "Distribuição dos níveis de hemoglobina "
                             "glicada entre os participantes.",
                             className="eda-chart-description"
                         ),
-
                         dcc.Graph(
                             id="grafico-hba1c",
-                            config={
-                                "displayModeBar": False
-                            },
+                            config={"displayModeBar": False},
                             className="eda-graph"
                         ),
                     ],
@@ -561,7 +435,6 @@ layout = html.Div(
                             "HbA1c por diabetes informado",
                             className="eda-chart-title"
                         ),
-
                         html.P(
                             "Comparação da distribuição de HbA1c "
                             "entre participantes que informaram "
@@ -569,12 +442,9 @@ layout = html.Div(
                             "ao diabetes.",
                             className="eda-chart-description"
                         ),
-
                         dcc.Graph(
                             id="grafico-hba1c-diabetes",
-                            config={
-                                "displayModeBar": False
-                            },
+                            config={"displayModeBar": False},
                             className="eda-graph"
                         ),
                     ],
@@ -583,10 +453,6 @@ layout = html.Div(
             ],
             className="eda-charts-grid"
         ),
-
-        # ----------------------------------------------------
-        # PRESSÃO ARTERIAL
-        # ----------------------------------------------------
 
         html.H2(
             "Pressão arterial",
@@ -601,7 +467,6 @@ layout = html.Div(
                             "Pressão sistólica média",
                             className="eda-card-label"
                         ),
-
                         html.H3(
                             id="card-pressao-sistolica",
                             className="eda-card-value"
@@ -616,7 +481,6 @@ layout = html.Div(
                             "Pressão diastólica média",
                             className="eda-card-label"
                         ),
-
                         html.H3(
                             id="card-pressao-diastolica",
                             className="eda-card-value"
@@ -636,18 +500,14 @@ layout = html.Div(
                             "Distribuição da pressão sistólica",
                             className="eda-chart-title"
                         ),
-
                         html.P(
                             "Distribuição das medidas de pressão "
                             "arterial sistólica entre os participantes.",
                             className="eda-chart-description"
                         ),
-
                         dcc.Graph(
                             id="grafico-pressao-sistolica",
-                            config={
-                                "displayModeBar": False
-                            },
+                            config={"displayModeBar": False},
                             className="eda-graph"
                         ),
                     ],
@@ -660,19 +520,15 @@ layout = html.Div(
                             "Pressão sistólica por hipertensão informada",
                             className="eda-chart-title"
                         ),
-
                         html.P(
                             "Comparação da pressão sistólica entre "
                             "participantes com e sem hipertensão "
                             "informada.",
                             className="eda-chart-description"
                         ),
-
                         dcc.Graph(
                             id="grafico-pressao-hipertensao",
-                            config={
-                                "displayModeBar": False
-                            },
+                            config={"displayModeBar": False},
                             className="eda-graph"
                         ),
                     ],
@@ -681,10 +537,6 @@ layout = html.Div(
             ],
             className="eda-charts-grid"
         ),
-
-        # ----------------------------------------------------
-        # PERFIL LIPÍDICO
-        # ----------------------------------------------------
 
         html.H2(
             "Perfil lipídico",
@@ -699,7 +551,6 @@ layout = html.Div(
                             "Colesterol total médio",
                             className="eda-card-label"
                         ),
-
                         html.H3(
                             id="card-colesterol-medio",
                             className="eda-card-value"
@@ -719,18 +570,14 @@ layout = html.Div(
                             "Distribuição do colesterol total",
                             className="eda-chart-title"
                         ),
-
                         html.P(
                             "Distribuição das medidas de colesterol "
                             "total entre os participantes.",
                             className="eda-chart-description"
                         ),
-
                         dcc.Graph(
                             id="grafico-colesterol",
-                            config={
-                                "displayModeBar": False
-                            },
+                            config={"displayModeBar": False},
                             className="eda-graph"
                         ),
                     ],
@@ -743,19 +590,15 @@ layout = html.Div(
                             "Colesterol total por histórico informado",
                             className="eda-chart-title"
                         ),
-
                         html.P(
                             "Comparação do colesterol total medido "
                             "entre participantes que informaram ou não "
                             "histórico de colesterol alto.",
                             className="eda-chart-description"
                         ),
-
                         dcc.Graph(
                             id="grafico-colesterol-informado",
-                            config={
-                                "displayModeBar": False
-                            },
+                            config={"displayModeBar": False},
                             className="eda-graph"
                         ),
                     ],
@@ -764,10 +607,6 @@ layout = html.Div(
             ],
             className="eda-charts-grid"
         ),
-
-        # ----------------------------------------------------
-        # RELAÇÕES CARDIOMETABÓLICAS
-        # ----------------------------------------------------
 
         html.H2(
             "Relações cardiometabólicas",
@@ -780,7 +619,6 @@ layout = html.Div(
                     "Correlação entre indicadores",
                     className="eda-chart-title"
                 ),
-
                 html.P(
                     "Matriz de correlação entre IMC, HbA1c, "
                     "pressão arterial e colesterol total. "
@@ -789,12 +627,9 @@ layout = html.Div(
                     "de 0 indicam relações lineares mais fracas.",
                     className="eda-chart-description"
                 ),
-
                 dcc.Graph(
                     id="grafico-correlacao",
-                    config={
-                        "displayModeBar": False
-                    },
+                    config={"displayModeBar": False},
                     className="eda-graph"
                 ),
             ],
@@ -804,10 +639,6 @@ layout = html.Div(
     className="eda-container"
 )
 
-
-# ============================================================
-# CALLBACK - ATUALIZAÇÃO DO DASHBOARD
-# ============================================================
 
 @callback(
     Output("card-participantes", "children"),
@@ -826,17 +657,10 @@ layout = html.Div(
     Input("filtro-sexo", "value")
 )
 def atualizar_dashboard(sexo):
-
     dados = filtrar_dados(sexo)
 
-    # --------------------------------------------------------
-    # INDICADORES
-    # --------------------------------------------------------
-
     total_participantes = dados["id_participante"].nunique()
-
     idade_media = dados["idade"].mean()
-
     imc_medio = dados["imc"].mean()
 
     pressao_sistolica_media = (
@@ -850,10 +674,6 @@ def atualizar_dashboard(sexo):
     colesterol_total_medio = (
         dados["colesterol_total"].mean()
     )
-
-    # --------------------------------------------------------
-    # FORMATAÇÃO DOS CARDS
-    # --------------------------------------------------------
 
     card_participantes = formatar_inteiro(
         total_participantes
@@ -884,13 +704,7 @@ def atualizar_dashboard(sexo):
         "mg/dL"
     )
 
-    # --------------------------------------------------------
-    # GRÁFICOS
-    # --------------------------------------------------------
-
-    fig_hba1c = criar_fig_hba1c(
-        dados
-    )
+    fig_hba1c = criar_fig_hba1c(dados)
 
     fig_hba1c_diabetes = criar_fig_hba1c_diabetes(
         dados
@@ -904,19 +718,13 @@ def atualizar_dashboard(sexo):
         dados
     )
 
-    fig_colesterol = criar_fig_colesterol(
-        dados
-    )
+    fig_colesterol = criar_fig_colesterol(dados)
 
     fig_colesterol_informado = (
-        criar_fig_colesterol_informado(
-            dados
-        )
+        criar_fig_colesterol_informado(dados)
     )
 
-    fig_correlacao = criar_fig_correlacao(
-        dados
-    )
+    fig_correlacao = criar_fig_correlacao(dados)
 
     return (
         card_participantes,
