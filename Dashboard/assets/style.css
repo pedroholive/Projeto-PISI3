@@ -1,0 +1,150 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #F7FAF9;
+    color: #263330;
+}
+
+/* Estrutura geral */
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Menu lateral */
+
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    padding: 32px 20px;
+    background-color: #0E766D;
+    color: #FFFFFF;
+    flex-shrink: 0;
+}
+
+.sidebar h2 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.sidebar p {
+    margin: 0;
+    color: #D6EEE9;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.sidebar hr {
+    border: 0;
+    border-top: 1px solid #FFFFFF40;
+    margin: 28px 0;
+}
+
+/* Links do menu */
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-link {
+    display: block;
+    padding: 14px 16px;
+    border-radius: 10px;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+    background-color: #FFFFFF25;
+}
+
+/* Área central */
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+    padding: 40px;
+}
+
+.main-content h1 {
+    margin-top: 0;
+    font-size: 30px;
+    color: #173F3A;
+}
+
+.main-content h2 {
+    margin-top: 32px;
+    color: #0E766D;
+}
+
+.main-content p {
+    color: #52615E;
+    line-height: 1.7;
+}
+
+/* Cards para a página inicial */
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 24px;
+}
+
+.card {
+    flex: 1;
+    min-width: 200px;
+    padding: 24px;
+    background-color: #FFFFFF;
+    border: 1px solid #E2EBE8;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px #00000008;
+}
+
+.card h2 {
+    margin: 8px 0 0;
+    color: #0E766D;
+    font-size: 30px;
+}
+
+.card h3 {
+    margin: 0;
+    color: #657571;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Adaptação para telas menores */
+
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-height: auto;
+        padding: 20px;
+    }
+
+    .sidebar nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .main-content {
+        padding: 24px 18px;
+    }
+}
