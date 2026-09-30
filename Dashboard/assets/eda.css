@@ -1,169 +1,851 @@
-.eda-container {
+/* =========================================================
+   EDA - HEALTHSYNC
+========================================================= */
+
+.eda-page {
     width: 100%;
+
+    margin: -40px;
+
+    width: calc(100% + 80px);
+
+    background-color: #F7FAF9;
 }
+
+
+/* =========================================================
+   CABEÇALHO
+========================================================= */
 
 .eda-header {
-    margin-bottom: 24px;
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 64px;
+
+    background:
+        radial-gradient(
+            circle at 88% 20%,
+            rgba(16, 185, 129, 0.16) 0%,
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #123F3A 0%,
+            #0E665D 58%,
+            #0E766D 100%
+        );
+
+    color: #FFFFFF;
 }
 
-.eda-title {
-    margin: 0 0 8px 0;
-    font-size: 32px;
-    font-weight: 700;
-    color: #1f2937;
+
+/* Elemento decorativo */
+
+.eda-header::after {
+    content: "";
+
+    position: absolute;
+
+    width: 360px;
+    height: 360px;
+
+    right: -150px;
+    bottom: -230px;
+
+    border-radius: 50%;
+
+    background-color: rgba(255, 255, 255, 0.045);
+
+    pointer-events: none;
 }
 
-.eda-subtitle {
+
+.eda-header-inner {
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+    max-width: 1350px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(230px, 280px);
+
+    align-items: center;
+
+    gap: 70px;
+}
+
+
+/* =========================================================
+   CONTEÚDO DO CABEÇALHO
+========================================================= */
+
+.eda-header-content {
+    max-width: 780px;
+}
+
+
+.eda-eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+    padding: 7px 13px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 999px;
+
+    background-color: rgba(255, 255, 255, 0.07);
+
+    color: #DDF3EC;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+}
+
+
+.eda-header-dot {
+    width: 7px;
+    height: 7px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background-color: #34D399;
+
+    box-shadow:
+        0 0 10px rgba(52, 211, 153, 0.65);
+}
+
+
+.main-content .eda-title {
+    max-width: 760px;
+
+    margin: 0 0 18px 0;
+
+    color: #FFFFFF;
+
+    font-size: clamp(38px, 4vw, 54px);
+
+    line-height: 1.1;
+
+    letter-spacing: -1.5px;
+
+    font-weight: 750;
+}
+
+
+.main-content .eda-subtitle {
+    max-width: 700px;
+
     margin: 0;
-    color: #6b7280;
+
+    color: rgba(255, 255, 255, 0.72);
+
     font-size: 16px;
+
+    line-height: 1.7;
 }
 
-.eda-filter-card {
-    display: flex;
-    align-items: flex-end;
-    gap: 20px;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 18px 22px;
-    margin-bottom: 32px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+/* =========================================================
+   FILTRO DO CABEÇALHO
+========================================================= */
+
+.eda-header-filter {
+    width: 100%;
+
+    padding: 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+
+    border-radius: 14px;
+
+    background-color: rgba(255, 255, 255, 0.09);
+
+    backdrop-filter: blur(12px);
+
+    -webkit-backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 14px 35px rgba(0, 0, 0, 0.08);
 }
 
-.eda-filter-item {
-    width: 240px;
-}
 
 .eda-filter-label {
     display: block;
-    margin-bottom: 8px;
-    color: #374151;
-    font-size: 14px;
-    font-weight: 600;
+
+    margin-bottom: 9px;
+
+    color: rgba(255, 255, 255, 0.68);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
 }
+
 
 .eda-dropdown {
     width: 100%;
 }
 
-.eda-section-title {
-    margin: 0 0 16px 0;
-    font-size: 20px;
-    font-weight: 600;
-    color: #1f2937;
+
+/* =========================================================
+   DROPDOWN DO DASH
+========================================================= */
+
+.eda-dropdown .Select-control {
+    min-height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+
+    border-radius: 9px;
+
+    background-color: rgba(255, 255, 255, 0.96);
+
+    box-shadow: none;
 }
 
-.eda-cards {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    margin-bottom: 32px;
+
+.eda-dropdown .Select-placeholder,
+.eda-dropdown .Select-value-label {
+    color: #263330 !important;
+
+    font-size: 14px;
 }
+
+
+.eda-dropdown .Select-arrow {
+    border-top-color: #0E766D;
+}
+
+
+.eda-dropdown .Select-menu-outer {
+    z-index: 1000;
+
+    margin-top: 5px;
+
+    overflow: hidden;
+
+    border: 1px solid #DDE9E5;
+
+    border-radius: 9px;
+
+    background-color: #FFFFFF;
+
+    box-shadow:
+        0 12px 30px rgba(18, 63, 58, 0.12);
+}
+
+
+.eda-dropdown .VirtualizedSelectOption {
+    color: #52615E;
+
+    font-size: 14px;
+}
+
+
+.eda-dropdown .VirtualizedSelectFocusedOption {
+    background-color: #E8F5F1;
+
+    color: #0E665D;
+}
+
+
+/* =========================================================
+   CONTAINER DAS SEÇÕES
+========================================================= */
+
+.eda-content-container {
+    width: 100%;
+
+    max-width: 1350px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   VISÃO GERAL
+========================================================= */
+
+.eda-overview-section {
+    padding: 72px 64px 76px;
+
+    background-color: #F7FAF9;
+}
+
+
+/* =========================================================
+   CABEÇALHO DAS SEÇÕES
+========================================================= */
+
+.eda-section-header {
+    max-width: 760px;
+
+    margin-bottom: 34px;
+}
+
+
+.main-content .eda-section-eyebrow {
+    margin: 0 0 9px 0;
+
+    color: #0E766D;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.main-content .eda-section-title {
+    margin: 0 0 12px 0;
+
+    color: #173F3A;
+
+    font-size: 31px;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.5px;
+}
+
+
+.main-content .eda-section-description {
+    max-width: 690px;
+
+    margin: 0;
+
+    color: #667572;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CARDS DE RESUMO
+========================================================= */
+
+.eda-summary-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 16px;
+}
+
 
 .eda-card {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 22px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    position: relative;
+
+    min-width: 0;
+
+    min-height: 145px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    padding: 22px 24px;
+
+    overflow: hidden;
+
+    border: 1px solid #E0EBE7;
+
+    border-radius: 14px;
+
+    background-color: #FFFFFF;
+
+    box-shadow:
+        0 4px 16px rgba(18, 63, 58, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.eda-card-label {
-    margin: 0 0 10px 0;
-    color: #6b7280;
-    font-size: 14px;
-    font-weight: 500;
+
+.eda-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #B8DDD3;
+
+    box-shadow:
+        0 12px 28px rgba(18, 63, 58, 0.08);
 }
+
+
+/* Linha decorativa */
+
+.eda-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0E766D,
+            #34D399
+        );
+
+    opacity: 0;
+
+    transition: opacity 0.2s ease;
+}
+
+
+.eda-card:hover::before {
+    opacity: 1;
+}
+
+
+.eda-card-tag {
+    display: inline-flex;
+
+    align-items: center;
+
+    width: fit-content;
+
+    margin-bottom: 9px;
+
+    padding: 5px 8px;
+
+    border-radius: 6px;
+
+    background-color: #E7F5F0;
+
+    color: #0E766D;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+.main-content .eda-card-label {
+    margin: 0;
+
+    color: #70817D;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    line-height: 1.4;
+}
+
 
 .eda-card-value {
-    margin: 0;
-    color: #0E766D;
-    font-size: 28px;
-    font-weight: 700;
+    margin: 20px 0 0;
+
+    color: #173F3A;
+
+    font-size: 27px;
+
+    font-weight: 750;
+
+    letter-spacing: -0.5px;
 }
 
-.eda-pressure-cards {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-    margin-bottom: 20px;
+
+/* =========================================================
+   SEÇÕES DE ANÁLISE
+========================================================= */
+
+.eda-analysis-section {
+    padding: 72px 64px 78px;
+
+    background-color: #FFFFFF;
 }
 
-.eda-lipid-cards {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
-    margin-bottom: 20px;
+
+.eda-section-alt {
+    background-color: #F1F7F5;
 }
+
+
+/* =========================================================
+   GRID DOS GRÁFICOS
+========================================================= */
 
 .eda-charts-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    align-items: stretch;
+
     gap: 20px;
-    margin-bottom: 32px;
 }
+
+
+/* =========================================================
+   CARD DOS GRÁFICOS
+========================================================= */
 
 .eda-chart-card {
     min-width: 0;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 22px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+    padding: 24px;
+
+    overflow: hidden;
+
+    border: 1px solid #DFEAE6;
+
+    border-radius: 16px;
+
+    background-color: #FFFFFF;
+
+    box-shadow:
+        0 5px 20px rgba(18, 63, 58, 0.045);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
 }
+
+
+.eda-chart-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #C6DED7;
+
+    box-shadow:
+        0 12px 30px rgba(18, 63, 58, 0.07);
+}
+
+
+.eda-chart-header {
+    min-height: 82px;
+
+    padding-bottom: 18px;
+
+    margin-bottom: 4px;
+
+    border-bottom: 1px solid #EDF2F0;
+}
+
 
 .eda-chart-title {
-    margin: 0 0 6px 0;
-    color: #1f2937;
-    font-size: 18px;
-    font-weight: 600;
+    margin: 0 0 7px 0;
+
+    color: #173F3A;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    line-height: 1.35;
 }
 
-.eda-chart-description {
-    margin: 0 0 16px 0;
-    color: #6b7280;
-    font-size: 14px;
-    line-height: 1.5;
+
+.main-content .eda-chart-description {
+    max-width: 620px;
+
+    margin: 0;
+
+    color: #70817D;
+
+    font-size: 13px;
+
+    line-height: 1.55;
 }
+
+
+/* =========================================================
+   GRÁFICOS
+========================================================= */
 
 .eda-graph {
     width: 100%;
+
+    min-height: 370px;
 }
+
+
+.eda-graph .js-plotly-plot,
+.eda-graph .plot-container,
+.eda-graph .svg-container {
+    width: 100% !important;
+}
+
+
+/* =========================================================
+   CORRELAÇÃO
+========================================================= */
 
 .eda-correlation-card {
-    margin-bottom: 32px;
+    width: 100%;
+
+    padding: 28px;
 }
 
-@media (max-width: 1100px) {
+
+.eda-correlation-card .eda-chart-header {
+    min-height: auto;
+}
+
+
+.eda-correlation-card .eda-graph {
+    min-height: 500px;
+}
+
+
+.eda-correlation-note {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 11px;
+
+    margin-top: 12px;
+
+    padding: 14px 16px;
+
+    border: 1px solid #D7EAE4;
+
+    border-radius: 10px;
+
+    background-color: #F2FAF7;
+}
+
+
+.eda-info-icon {
+    width: 22px;
+    height: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background-color: #DDF3EC;
+
+    color: #0E766D;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+
+.main-content .eda-correlation-note p {
+    margin: 0;
+
+    color: #5D716C;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .eda-header-inner {
+        grid-template-columns:
+            minmax(0, 1fr)
+            240px;
+
+        gap: 45px;
+    }
+
+    .eda-summary-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 1050px) {
+
+    .eda-header {
+        padding:
+            58px
+            40px;
+    }
+
+    .eda-header-inner {
+        grid-template-columns: 1fr;
+
+        gap: 32px;
+    }
+
+    .eda-header-filter {
+        max-width: 420px;
+    }
+
+    .eda-overview-section,
+    .eda-analysis-section {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
     .eda-charts-grid {
         grid-template-columns: 1fr;
     }
+
+    .eda-chart-header {
+        min-height: auto;
+    }
 }
 
-@media (max-width: 900px) {
-    .eda-cards {
+
+@media (max-width: 850px) {
+
+    .eda-summary-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .eda-page {
+        margin: -24px -18px;
+
+        width: calc(100% + 36px);
+    }
+
+    .eda-header {
+        padding:
+            48px
+            22px
+            52px;
+    }
+
+    .main-content .eda-title {
+        font-size: 38px;
+
+        letter-spacing: -1px;
+    }
+
+    .main-content .eda-subtitle {
+        font-size: 15px;
+    }
+
+    .eda-header-filter {
+        max-width: 100%;
+    }
+
+    .eda-overview-section,
+    .eda-analysis-section {
+        padding:
+            54px
+            22px;
+    }
+
+    .main-content .eda-section-title {
+        font-size: 27px;
+    }
+
+    .eda-summary-grid {
         grid-template-columns: 1fr;
     }
 
-    .eda-pressure-cards {
+    .eda-card {
+        min-height: 130px;
+    }
+
+    .eda-charts-grid {
         grid-template-columns: 1fr;
+
+        gap: 16px;
     }
 
-    .eda-lipid-cards {
-        grid-template-columns: 1fr;
+    .eda-chart-card {
+        padding: 20px;
     }
 
-    .eda-filter-card {
-        align-items: stretch;
-        flex-direction: column;
+    .eda-graph {
+        min-height: 330px;
     }
 
-    .eda-filter-item {
-        width: 100%;
+    .eda-correlation-card .eda-graph {
+        min-height: 400px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .eda-header {
+        padding-top: 42px;
     }
 
-    .eda-title {
-        font-size: 28px;
+    .eda-eyebrow {
+        font-size: 9px;
+    }
+
+    .main-content .eda-title {
+        font-size: 33px;
+    }
+
+    .eda-card-value {
+        font-size: 25px;
+    }
+
+    .eda-chart-card {
+        padding: 17px;
+    }
+
+    .eda-graph {
+        min-height: 300px;
+    }
+
+    .eda-correlation-card .eda-graph {
+        min-height: 350px;
     }
 }
