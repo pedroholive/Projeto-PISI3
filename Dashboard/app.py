@@ -1,15 +1,24 @@
 import dash
 from dash import Dash, html, dcc, Input, Output
 
+
 app = Dash(
     __name__,
     use_pages=True,
     title="HealthSync | Dashboard"
 )
 
+
+def paginas_navegacao():
+    return [
+        page
+        for page in dash.page_registry.values()
+        if page["path"] != "/eda"
+    ]
+
+
 app.layout = html.Div(
     [
-        # URL atual
         dcc.Location(
             id="url",
             refresh=False
@@ -17,12 +26,8 @@ app.layout = html.Div(
 
         html.Div(
             [
-                # =====================================================
-                # SIDEBAR
-                # =====================================================
                 html.Aside(
                     [
-                        # Marca
                         html.Div(
                             [
                                 html.Div(
@@ -48,7 +53,6 @@ app.layout = html.Div(
                             className="sidebar-brand"
                         ),
 
-                        # Navegação
                         html.Div(
                             [
                                 html.P(
@@ -81,7 +85,7 @@ app.layout = html.Div(
                                             },
                                             className="nav-link"
                                         )
-                                        for page in dash.page_registry.values()
+                                        for page in paginas_navegacao()
                                     ],
                                     className="sidebar-nav"
                                 ),
@@ -89,7 +93,6 @@ app.layout = html.Div(
                             className="sidebar-navigation"
                         ),
 
-                        # Rodapé
                         html.Div(
                             [
                                 html.Div(
@@ -123,9 +126,6 @@ app.layout = html.Div(
                     className="sidebar"
                 ),
 
-                # =====================================================
-                # CONTEÚDO
-                # =====================================================
                 html.Main(
                     dash.page_container,
                     className="main-content"
@@ -137,27 +137,31 @@ app.layout = html.Div(
 )
 
 
-# =========================================================
-# PÁGINA ATIVA NA SIDEBAR
-# =========================================================
-
 @app.callback(
     Output(
-        {"type": "nav-link", "path": dash.ALL},
+        {
+            "type": "nav-link",
+            "path": dash.ALL
+        },
         "className"
     ),
-    Input("url", "pathname")
+    Input(
+        "url",
+        "pathname"
+    )
 )
 def atualizar_link_ativo(pathname):
-
     classes = []
 
-    for page in dash.page_registry.values():
-
+    for page in paginas_navegacao():
         if pathname == page["path"]:
-            classes.append("nav-link nav-link-active")
+            classes.append(
+                "nav-link nav-link-active"
+            )
         else:
-            classes.append("nav-link")
+            classes.append(
+                "nav-link"
+            )
 
     return classes
 
