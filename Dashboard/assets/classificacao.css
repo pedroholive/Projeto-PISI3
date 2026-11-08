@@ -1,0 +1,373 @@
+
+/* =========================================================
+   HEALTHSYNC — CLASSIFICAÇÃO SUPERVISIONADA
+   Dataset: NHANES 2021–2023
+
+   Estilos exclusivos da página de classificação.
+========================================================= */
+
+
+/* =========================================================
+   1. ESTRUTURA GERAL E CABEÇALHO
+========================================================= */
+
+.cf-page {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 36px;
+}
+
+.cf-eyebrow {
+    margin: 0 0 8px;
+    color: #0E766D !important;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.cf-heading {
+    margin: 0 0 10px;
+    color: #173F3A;
+    font-size: clamp(25px, 3vw, 36px);
+    line-height: 1.2;
+}
+
+.cf-intro {
+    max-width: 850px;
+    margin: 0;
+    color: #52615E;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   2. FILTROS E SELEÇÃO DOS MODELOS
+========================================================= */
+
+.cf-filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+    align-items: end;
+
+    padding: 20px 24px;
+    background: #FFFFFF;
+    border: 1px solid #E2ECE8;
+    border-radius: 16px;
+    box-shadow: 0 3px 14px rgba(20, 61, 54, 0.04);
+}
+
+.cf-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.cf-filter-label {
+    color: #173F3A;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.cf-filters .Select-control,
+.cf-filters .Select-menu-outer {
+    border-color: #DCE8E3;
+    border-radius: 8px;
+}
+
+
+/* =========================================================
+   3. INDICADORES PRINCIPAIS — KPIs
+========================================================= */
+
+.cf-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.cf-kpi {
+    min-width: 0;
+    padding: 22px 24px;
+
+    background: #FFFFFF;
+    border: 1px solid #E2ECE8;
+    border-radius: 16px;
+    box-shadow: 0 3px 14px rgba(20, 61, 54, 0.04);
+}
+
+.cf-kpi-label {
+    margin: 0 0 8px;
+    color: #52615E;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.cf-kpi-value {
+    display: block;
+    color: #0E766D;
+    font-size: clamp(24px, 2.5vw, 32px);
+    line-height: 1.2;
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+}
+
+.cf-kpi-note {
+    margin: 8px 0 0;
+    color: #64736E;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   4. CARTÕES E GRÁFICOS
+========================================================= */
+
+.cf-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+.cf-card {
+    min-width: 0;
+    padding: 22px 24px;
+
+    background: #FFFFFF;
+    border: 1px solid #E2ECE8;
+    border-radius: 16px;
+    box-shadow: 0 3px 14px rgba(20, 61, 54, 0.04);
+}
+
+.cf-card-title {
+    margin: 0 0 10px;
+    color: #173F3A;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.cf-card-description {
+    margin: 0 0 14px;
+    color: #52615E;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.cf-card-note {
+    margin: 8px 0 0;
+    color: #64736E;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.cf-card .dash-graph {
+    width: 100%;
+    min-width: 0;
+}
+
+.cf-card-full {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   5. COMPARAÇÃO DOS MODELOS — TABELA
+========================================================= */
+
+.cf-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.cf-table {
+    width: 100%;
+    min-width: 680px;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+}
+
+.cf-table th,
+.cf-table td {
+    padding: 13px 14px;
+    border-bottom: 1px solid #E8EFED;
+    white-space: nowrap;
+}
+
+.cf-table th {
+    color: #173F3A;
+    background: #F2F8F5;
+    font-weight: 700;
+}
+
+.cf-table td {
+    color: #52615E;
+    font-variant-numeric: tabular-nums;
+}
+
+.cf-table tbody tr:hover {
+    background: #F7FAF9;
+}
+
+
+/* =========================================================
+   6. MATRIZ DE CONFUSÃO
+========================================================= */
+
+.cf-confusion-container {
+    width: 100%;
+    min-width: 0;
+}
+
+.cf-confusion-graph {
+    width: 100%;
+    min-height: 380px;
+}
+
+.cf-confusion-note {
+    padding: 14px 16px;
+    margin-top: 12px;
+
+    background: #F2FAF7;
+    border: 1px solid #D7EAE4;
+    border-radius: 10px;
+
+    color: #52615E;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   7. IMPORTÂNCIA DAS VARIÁVEIS
+========================================================= */
+
+.cf-feature-container {
+    width: 100%;
+    min-width: 0;
+}
+
+.cf-feature-graph {
+    width: 100%;
+    min-height: 400px;
+}
+
+.cf-feature-note {
+    margin: 10px 0 0;
+    color: #64736E;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   8. MENSAGENS E OBSERVAÇÕES METODOLÓGICAS
+========================================================= */
+
+.cf-info {
+    padding: 16px 20px;
+
+    background: #F2FAF7;
+    border: 1px solid #D7EAE4;
+    border-radius: 12px;
+
+    color: #52615E;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.cf-empty {
+    padding: 35px 20px;
+    text-align: center;
+
+    color: #64736E;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.cf-source {
+    margin: 0;
+    color: #64736E;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   9. RESPONSIVIDADE — TELAS INTERMEDIÁRIAS
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .cf-kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1100px) {
+
+    .cf-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================================
+   10. RESPONSIVIDADE — TABLETS E CELULARES
+========================================================= */
+
+@media (max-width: 760px) {
+
+    .cf-filters {
+        grid-template-columns: 1fr;
+        padding: 16px;
+    }
+
+    .cf-kpis {
+        grid-template-columns: 1fr;
+    }
+
+    .cf-card {
+        padding: 16px;
+    }
+
+    .cf-kpi {
+        padding: 18px;
+    }
+
+    .cf-confusion-graph {
+        min-height: 320px;
+    }
+
+    .cf-feature-graph {
+        min-height: 330px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .cf-heading {
+        font-size: 25px;
+    }
+
+    .cf-card-title {
+        font-size: 16px;
+    }
+
+    .cf-confusion-graph {
+        min-height: 280px;
+    }
+
+    .cf-feature-graph {
+        min-height: 300px;
+    }
+}
