@@ -4,7 +4,7 @@
 
 **Dos dados de saúde à análise: exploração de indicadores glicêmicos, pressão arterial, perfil cardiometabólico e desenvolvimento de modelos de Machine Learning.**
 
-`Python` · `Pandas` · `Matplotlib` · `Seaborn` 
+`Python` · `Pandas` · `Scikit-Learn` · `Matplotlib` · `Seaborn` 
 
 <a href="#-visão-geral">Visão geral</a> ·
 <a href="#️-o-healthsync">HealthSync</a> ·
@@ -26,9 +26,12 @@ O projeto integra análise de dados, Machine Learning e desenvolvimento de uma a
 
 2. **Como diferentes indicadores se relacionam?** — investigação das relações entre glicemia, pressão arterial, IMC, colesterol, atividade física, sedentarismo e histórico informado de saúde.
 
-3. **Como esses dados podem apoiar o HealthSync?** — preparação de modelos de Machine Learning voltados à estimativa de risco relacionada a diabetes e hipertensão e futura integração dessas análises ao sistema.
+3. **Como esses dados podem apoiar o HealthSync?** — investigação de
+perfis cardiometabólicos por meio de aprendizado de máquina,
+incluindo a clusterização e a atribuição de subperfis estatísticos,
+com possibilidade de integração futura ao aplicativo.
 
-Atualmente, o projeto possui a etapa de **preparação dos dados e Análise Exploratória de Dados (EDA)** desenvolvida. As etapas de **Machine Learning e dashboard estão em desenvolvimento**.
+Atualmente, o projeto possui as etapas de **preparação dos dados, Análise Exploratória de Dados (EDA), clusterização e atribuição de subperfil** desenvolvidas. A etapa de **dashboard está em desenvolvimento**.
 
 > O HealthSync possui finalidade acadêmica e de apoio ao acompanhamento de informações de saúde. O sistema não substitui diagnóstico, avaliação ou orientação realizada por profissionais de saúde.
 
@@ -120,52 +123,142 @@ A pasta [`analises/`](analises/) reúne as investigações realizadas para compr
 
 > Os resultados representam associações descritivas na amostra analisada. Correlação não implica causalidade e as medidas analisadas não devem ser interpretadas isoladamente como diagnósticos.
 
-## 🤖 Machine Learning
 
-> 🚧 **Etapa em desenvolvimento**
+## 🤖 Machine Learning — Perfis e Atribuição de Subperfil
 
-A etapa de Machine Learning será desenvolvida a partir dos resultados obtidos durante a análise exploratória.
+O projeto utiliza técnicas de aprendizado de máquina para investigar
+agrupamentos estatísticos de participantes e a possibilidade de
+reproduzir esses agrupamentos por meio de modelos supervisionados.
 
-Inicialmente, serão investigados dois problemas separados:
+### Clusterização — K-Means
 
-### 🩸 Diabetes
+A clusterização utiliza o algoritmo K-Means para identificar
+subperfis cardiometabólicos dentro de três estratos de hemoglobina
+glicada (HbA1c).
 
-Desenvolvimento de um modelo relacionado à estimativa de risco de diabetes a partir de características clínicas, demográficas e comportamentais disponíveis.
+Os agrupamentos são representados pela variável `perfil_id`,
+que identifica o subperfil atribuído a cada participante.
 
-### ❤️ Hipertensão
+Esses subperfis representam agrupamentos estatísticos e não
+correspondem necessariamente a categorias clínicas ou níveis
+de risco validados.
 
-Desenvolvimento de um modelo relacionado à estimativa de risco de hipertensão considerando características relevantes disponíveis na base.
+### Atribuição de Subperfil — Random Forest
 
-### Cuidados metodológicos
+O Random Forest foi utilizado para reproduzir os identificadores
+de subperfil previamente gerados pela clusterização.
 
-Antes do treinamento serão definidos:
+As cinco variáveis de entrada do modelo são:
 
-- as variáveis-alvo de cada problema;
-- as características utilizadas como preditoras;
-- o tratamento de valores ausentes e extremos;
-- as estratégias de transformação e normalização;
-- a divisão entre treino e teste;
-- as métricas utilizadas na avaliação dos modelos.
+- Idade;
+- IMC;
+- Pressão arterial sistólica;
+- Pressão arterial diastólica;
+- Colesterol total.
 
-Um dos principais cuidados será evitar **data leakage**.
+O treinamento utiliza três modelos independentes, um para
+cada estrato de HbA1c.
 
-Caso uma medida clínica seja utilizada diretamente para construir uma variável-alvo, essa mesma informação não será utilizada de forma circular como variável preditora do alvo.
+O pipeline mantém o RobustScaler e a separação estratificada
+entre treinamento e teste, com 80% e 20% dos registros,
+respectivamente.
 
-Os algoritmos e modelos finais ainda não foram definidos e serão selecionados a partir de experimentação e avaliação.
+### Interpretação dos resultados
+
+Uma limitação importante foi identificada na definição do alvo
+da classificação supervisionada.
+
+A variável `perfil_id` foi construída anteriormente pelo K-Means,
+a partir de características dos próprios participantes.
+
+Consequentemente, o Random Forest utiliza indicadores relacionados
+àqueles que deram origem ao alvo que procura reproduzir.
+
+Os valores elevados de F1-score macro, aproximadamente entre
+0,92 e 0,97, demonstram que o modelo consegue reproduzir
+os subperfis estatísticos atribuídos pelo K-Means no conjunto
+de teste.
+
+Esses resultados não comprovam capacidade de prever um novo
+desfecho clínico, diagnosticar diabetes ou hipertensão, nem
+estimar risco cardiometabólico individual.
+
+Portanto, neste pipeline, o modelo deve ser apresentado como
+um mecanismo de atribuição de subperfil, e não como um
+classificador de doenças.
+
+### Comparação com linhas de base
+
+A avaliação dos modelos inclui uma comparação com a
+Regressão Logística, utilizada como linha de base.
+
+A comparação considera os mesmos rótulos de subperfil e
+a mesma divisão entre treinamento e teste.
+
+Os resultados permitem verificar como diferentes algoritmos
+conseguem reproduzir a partição estatística estabelecida
+pela clusterização.
+
+O desempenho elevado de uma linha de base reforça a
+necessidade de interpretar as métricas como concordância
+com os agrupamentos existentes, não como validação clínica.
+
+### Limitação relacionada à HbA1c
+
+A inferência de subperfil exige a disponibilidade de HbA1c
+para identificar qual dos três modelos deve ser utilizado.
+
+A HbA1c não integra as cinco variáveis de entrada do
+Random Forest dentro do estrato, mas é necessária
+para selecionar o modelo correspondente.
+
+Essa exigência representa uma limitação para a futura
+integração com o aplicativo HealthSync, pois nem todos
+os pacientes terão resultados recentes desse exame.
+
+O pipeline atual não possui uma alternativa validada
+para realizar a atribuição de subperfil sem HbA1c.
+
+### Aplicação futura
+
+Os modelos treinados permanecem disponíveis para utilização
+em uma funcionalidade de atribuição de subperfil.
+
+Entretanto, essa funcionalidade deve ser apresentada
+como uma classificação de agrupamentos estatísticos,
+sem atribuição automática de diagnósticos ou riscos clínicos.
 
 ## 🖥️ Dashboard
 
-> 🚧 **Em desenvolvimento**
+O projeto possui um dashboard desenvolvido com Dash,
+destinado à apresentação das análises e dos resultados
+dos modelos de aprendizado de máquina.
 
-O projeto prevê o desenvolvimento de um dashboard utilizando **Dash**, destinado à visualização dos principais indicadores e resultados das análises.
+A página **Atribuição de Subperfil** apresenta:
 
-A estrutura e as funcionalidades serão documentadas nesta seção conforme a implementação avançar.
+- Seleção dos três estratos glicêmicos;
+- Resultados do Random Forest;
+- Comparação com linhas de base disponíveis;
+- Acurácia, precisão, recall e F1-score;
+- Matrizes de confusão exportadas pela avaliação;
+- Área de importância das variáveis, quando disponível;
+- Observações metodológicas sobre as limitações dos modelos.
+
+As métricas são carregadas a partir do arquivo:
+
+`modelos/avaliacao_classificacao/metricas_classificacao.csv`
+
+A página preserva a rota `/classificacao` por compatibilidade.
+
+Os resultados apresentados são experimentais e não devem
+ser interpretados como diagnósticos individuais.
+
 
 ## 🧱 Stack utilizada
 
 <div align="center">
 
-`Python` · `Pandas` · `NumPy` · `Matplotlib` · `Seaborn` · `Jupyter Notebook` 
+`Python` · `Pandas` · `NumPy` · `Scikit-Learn` · `Matplotlib` · `Seaborn` · `Plotly Dash` · `Jupyter Notebook` 
 
 </div>
 
@@ -176,9 +269,11 @@ A estrutura e as funcionalidades serão documentadas nesta seção conforme a im
 | Seleção do dataset | ✅ Concluído |
 | Preparação e integração dos dados | ✅ Concluído |
 | Análise Exploratória de Dados | ✅ Concluído |
-| Definição dos targets | 🔄 Em desenvolvimento |
-| Preparação para Machine Learning | ⏳ Próxima etapa |
-| Treinamento dos modelos | ⏳ Pendente |
-| Avaliação dos modelos | ⏳ Pendente |
+| Definição dos targets | ✅ Concluído |
+| Preparação para Machine Learning | ✅ Concluído |
+| Clusterização (K-Means) | ✅ Concluído |
+| Atribuição de subperfil (Random Forest) | ✅ Concluído |
+| Avaliação com linhas de base | ✅ Concluído |
+| Modelos de estimativa de risco | ⏳ Pendente |
 | Dashboard | 🚧 Em desenvolvimento |
 | Integração com o HealthSync | ⏳ Pendente |
