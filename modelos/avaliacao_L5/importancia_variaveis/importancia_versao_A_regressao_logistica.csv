@@ -1,0 +1,7 @@
+﻿modelo,variavel,queda_auc_media,queda_auc_desvio
+versao_A_regressao_logistica,idade,0.17464515964630642,0.014623268009381489
+versao_A_regressao_logistica,imc,0.04368677216318841,0.008793696308234443
+versao_A_regressao_logistica,pressao_sistolica,0.0012728384680070538,0.0022762562378102853
+versao_A_regressao_logistica,colesterol_total,0.0008090614886732128,0.0006112023095398911
+versao_A_regressao_logistica,sexo,0.0006765537802920329,0.0011753880189177932
+versao_A_regressao_logistica,pressao_diastolica,-0.0002688377545039033,0.0007880198333311315

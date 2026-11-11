@@ -1,0 +1,8 @@
+﻿modelo,variavel,queda_auc_media,queda_auc_desvio
+versao_B_regressao_logistica,idade,0.1637247407180898,0.014493296569244696
+versao_B_regressao_logistica,imc,0.03938409397854385,0.008627361854107021
+versao_B_regressao_logistica,hipertensao_informada,0.0014614071299339005,0.002440265220653762
+versao_B_regressao_logistica,colesterol_total,0.001263919679942793,0.0009366642774043742
+versao_B_regressao_logistica,sexo,0.0008396401906071605,0.0012548385452068427
+versao_B_regressao_logistica,pressao_sistolica,0.0008167061641565665,0.0015390963551558789
+versao_B_regressao_logistica,pressao_diastolica,-0.00030706113192164876,0.0006601009929204139

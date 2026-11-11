@@ -1,0 +1,8 @@
+﻿modelo,variavel,queda_auc_media,queda_auc_desvio
+versao_B_random_forest,idade,0.12186632010804474,0.015459435742741572
+versao_B_random_forest,imc,0.051290676044135244,0.011002439380364258
+versao_B_random_forest,pressao_sistolica,0.02195295976352467,0.0029923395874286297
+versao_B_random_forest,colesterol_total,0.0058379838442524255,0.00537731301375126
+versao_B_random_forest,hipertensao_informada,0.00414851056239327,0.005157004942577242
+versao_B_random_forest,sexo,0.0033916876895242255,0.005081725153406082
+versao_B_random_forest,pressao_diastolica,-0.002703666896006962,0.005565402800096788

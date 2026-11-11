@@ -1,0 +1,84 @@
+{
+  "descricao": "Triagem experimental da faixa de HbA1c; não é diagnóstico",
+  "alvo": "0: HbA1c < 5.7; 1: HbA1c >= 5.7",
+  "filtro": "diabetes_informado == 'Nao'",
+  "n_participantes": 4360,
+  "n_treino": 3488,
+  "n_teste_reservado": 872,
+  "split_teste": 0.2,
+  "random_state": 42,
+  "cv_folds": 5,
+  "metricas": [
+    "auc_roc",
+    "f1",
+    "recall",
+    "precisao",
+    "acuracia",
+    "acuracia_balanceada"
+  ],
+  "test_set_utilizado_na_avaliacao": false,
+  "resumo_preparacao": {
+    "participantes_antes_filtro": 5283,
+    "participantes_sem_diabetes_informado": 4360,
+    "participantes_com_alvo_valido": 4360,
+    "classe_0": 3089,
+    "classe_1": 1271,
+    "ausentes_hipertensao_informada": 2
+  },
+  "artefatos": [
+    {
+      "versao": "A",
+      "modelo": "regressao_logistica",
+      "arquivo": "versao_A_regressao_logistica.joblib",
+      "features": [
+        "idade",
+        "imc",
+        "pressao_sistolica",
+        "pressao_diastolica",
+        "colesterol_total",
+        "sexo"
+      ]
+    },
+    {
+      "versao": "A",
+      "modelo": "random_forest",
+      "arquivo": "versao_A_random_forest.joblib",
+      "features": [
+        "idade",
+        "imc",
+        "pressao_sistolica",
+        "pressao_diastolica",
+        "colesterol_total",
+        "sexo"
+      ]
+    },
+    {
+      "versao": "B",
+      "modelo": "regressao_logistica",
+      "arquivo": "versao_B_regressao_logistica.joblib",
+      "features": [
+        "idade",
+        "imc",
+        "pressao_sistolica",
+        "pressao_diastolica",
+        "colesterol_total",
+        "sexo",
+        "hipertensao_informada"
+      ]
+    },
+    {
+      "versao": "B",
+      "modelo": "random_forest",
+      "arquivo": "versao_B_random_forest.joblib",
+      "features": [
+        "idade",
+        "imc",
+        "pressao_sistolica",
+        "pressao_diastolica",
+        "colesterol_total",
+        "sexo",
+        "hipertensao_informada"
+      ]
+    }
+  ]
+}
