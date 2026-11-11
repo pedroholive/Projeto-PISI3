@@ -1,15 +1,12 @@
 
+
 /* =========================================================
-   HEALTHSYNC — CLASSIFICAÇÃO SUPERVISIONADA
+   HEALTHSYNC — ATRIBUIÇÃO DE SUBPERFIL
    Dataset: NHANES 2021–2023
 
-   Estilos exclusivos da página de classificação.
+   Estilos exclusivos da página de atribuição de subperfil.
 ========================================================= */
 
-
-/* =========================================================
-   1. ESTRUTURA GERAL E CABEÇALHO
-========================================================= */
 
 .cf-page {
     width: 100%;
@@ -230,6 +227,15 @@
 .cf-confusion-graph {
     width: 100%;
     min-height: 380px;
+}
+
+.cf-confusion-img {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+
+    border-radius: 8px;
 }
 
 .cf-confusion-note {

@@ -1,12 +1,19 @@
 
+
 """
-HealthSync - Preparação de dados para classificação.
+HealthSync - Preparação de dados para atribuição de subperfil.
 
 Etapas:
 1. Carregamento e validação dos dados.
 2. Separação dos estratos de HbA1c.
 3. Preparação da variável alvo.
 4. Divisão estratificada de treino e teste.
+
+O objetivo é preparar os dados para reproduzir os subperfis
+estatísticos identificados previamente pelo K-Means.
+
+A atribuição de subperfil não representa diagnóstico clínico
+nem previsão de um desfecho de saúde independente.
 """
 
 from pathlib import Path
@@ -17,6 +24,10 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 
+# =========================================================
+# 1. CONFIGURAÇÕES
+# =========================================================
+
 # Caminho padrão da base clusterizada.
 CAMINHO_DATASET = (
     Path(__file__).resolve().parents[1]
@@ -25,7 +36,13 @@ CAMINHO_DATASET = (
     / "healthsync_perfis_cardiometabolicos.csv"
 )
 
-# Cinco variáveis utilizadas na classificação.
+# Cinco variáveis utilizadas para reproduzir o perfil_id
+# previamente construído pelo K-Means.
+#
+# Não representam preditores de um desfecho clínico independente.
+#
+# A HbA1c é utilizada para definir o estrato, mas não integra
+# as cinco variáveis de entrada do modelo dentro do estrato.
 FEATURES = [
     "idade",
     "imc",
@@ -35,6 +52,7 @@ FEATURES = [
 ]
 
 # Variável alvo criada pela clusterização.
+# É um rótulo estatístico, não uma condição clínica.
 TARGET = "perfil_id"
 
 # Nomes exatos dos estratos presentes no CSV.
@@ -44,13 +62,17 @@ ESTRATOS = [
     "HbA1c >= 6.5",
 ]
 
-# Quantidade esperada de clusters.
+# Quantidade esperada de clusters por estrato.
 CLUSTERS_ESPERADOS = {
     "HbA1c < 5.7": 2,
     "5.7 <= HbA1c < 6.5": 6,
     "HbA1c >= 6.5": 2,
 }
 
+
+# =========================================================
+# 2. CARREGAMENTO E VALIDAÇÃO DOS DADOS
+# =========================================================
 
 def carregar_dados(caminho=CAMINHO_DATASET):
     """Carrega e valida o dataset clusterizado."""
@@ -113,6 +135,10 @@ def carregar_dados(caminho=CAMINHO_DATASET):
     # Retorna os dados validados.
     return df
 
+
+# =========================================================
+# 3. PREPARAÇÃO DOS ESTRATOS
+# =========================================================
 
 def preparar_estratos(df):
     """Separa os dados nos três estratos de HbA1c."""
@@ -196,6 +222,10 @@ def preparar_estratos(df):
     return dados_estratos
 
 
+# =========================================================
+# 4. DIVISÃO DE TREINO E TESTE
+# =========================================================
+
 def dividir_treino_teste(
     dados_estratos,
     test_size=0.20,
@@ -212,10 +242,26 @@ def dividir_treino_teste(
         # Recupera o subconjunto atual.
         subset = dados_estratos[estrato]
 
-        # Seleciona as cinco features.
+        # Seleciona as cinco features originais.
         X = subset[FEATURES].copy()
 
-        # Utiliza o identificador original do perfil cardiometabólico.
+        # -------------------------------------------------
+        # LIMITAÇÃO METODOLÓGICA
+        # -------------------------------------------------
+        # O alvo perfil_id foi produzido previamente pelo
+        # K-Means, utilizando características dos participantes.
+        #
+        # O modelo supervisionado aprende a reproduzir esse
+        # agrupamento estatístico, e não a prever uma doença
+        # ou outro desfecho clínico independente.
+        #
+        # Por isso, métricas elevadas indicam concordância
+        # com os rótulos da clusterização.
+        #
+        # O alvo é mantido para preservar a funcionalidade
+        # de atribuição de subperfil do HealthSync.
+        # -------------------------------------------------
+
         y = subset["perfil_id"].copy()
 
         # Verifica se alguma classe tem poucas amostras.
@@ -225,6 +271,9 @@ def dividir_treino_teste(
             )
 
         # Divide os dados preservando as proporções.
+        #
+        # Mantém 80% para treino e 20% para teste,
+        # com random_state=42 e estratificação pelo alvo.
         X_train, X_test, y_train, y_test = (
             train_test_split(
                 X,
@@ -248,7 +297,10 @@ def dividir_treino_teste(
                 f"{estrato}: classes ausentes no teste."
             )
 
-        # Guarda os conjuntos para o Integrante 2.
+        # Guarda os conjuntos para o treinamento e avaliação.
+        #
+        # O RobustScaler permanece no pipeline de treinamento
+        # e não é aplicado antecipadamente nesta preparação.
         splits[estrato] = {
             "X_train": X_train,
             "X_test": X_test,
@@ -273,6 +325,10 @@ def dividir_treino_teste(
     # Retorna os dados preparados para treinamento.
     return splits
 
+
+# =========================================================
+# 5. EXECUÇÃO DO SCRIPT
+# =========================================================
 
 if __name__ == "__main__":
 

@@ -1,11 +1,18 @@
 
 """
-HealthSync - Treinamento dos classificadores.
+HealthSync — Treinamento para Atribuição de Subperfil.
 
-Responsabilidade:
-Treinar três modelos Random Forest independentes,
-um para cada estrato de HbA1c.
+O Random Forest aprende a reproduzir o perfil_id,
+rótulo estatístico previamente gerado pelo K-Means.
+
+O objetivo deste pipeline não é prever diabetes,
+hipertensão ou outro desfecho clínico independente.
+
+Os modelos são treinados separadamente por estrato
+de HbA1c, preservando o conjunto de variáveis,
+o RobustScaler e a divisão treino/teste.
 """
+
 
 from pathlib import Path
 
@@ -43,7 +50,7 @@ def criar_pipeline(random_state=42):
         # Escalonamento robusto das variáveis.
         ("scaler", RobustScaler()),
 
-        # Classificador Random Forest.
+        # Random Forest de atribuição de subperfil.
         ("classificador", RandomForestClassifier(
 
             # Quantidade de árvores da floresta.
@@ -72,7 +79,7 @@ def criar_pipeline(random_state=42):
 
 def treinar_modelos(splits, random_state=42):
     """
-    Treina um classificador independente para cada estrato.
+    Treina um modelo de atribuição independente por estrato.
     """
 
     # Dicionário para armazenar os modelos treinados.
@@ -109,7 +116,7 @@ def treinar_modelos(splits, random_state=42):
 
 def salvar_modelos(modelos, diretorio=DIRETORIO_MODELOS):
     """
-    Salva os classificadores treinados em arquivos Joblib.
+    Salva os modelos treinados em arquivos Joblib.
     """
 
     # Cria o diretório caso ainda não exista.
