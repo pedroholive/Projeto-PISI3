@@ -228,7 +228,6 @@ Entretanto, essa funcionalidade deve ser apresentada
 como uma classificação de agrupamentos estatísticos,
 sem atribuição automática de diagnósticos ou riscos clínicos.
 
-
 ## 🧠 L5 — Classificação Preditiva da Faixa de HbA1c
 
 ### 🎯 Objetivo
