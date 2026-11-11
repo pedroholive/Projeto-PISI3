@@ -228,6 +228,248 @@ Entretanto, essa funcionalidade deve ser apresentada
 como uma classificação de agrupamentos estatísticos,
 sem atribuição automática de diagnósticos ou riscos clínicos.
 
+
+## 🧠 L5 — Classificação Preditiva da Faixa de HbA1c
+
+### 🎯 Objetivo
+
+Esta etapa do **HealthSync** investiga a possibilidade de estimar a faixa de hemoglobina glicada (HbA1c) de participantes sem diagnóstico de diabetes autorrelatado, utilizando indicadores clínicos e demográficos.
+
+Diferentemente do modelo anterior de **Atribuição de Subperfil**, que reproduz rótulos gerados pelo K-Means, a L5 utiliza um alvo binário construído a partir de uma medida laboratorial.
+
+**Definição das classes:**
+
+- **Classe 0:** HbA1c < 5,7%.
+- **Classe 1:** HbA1c ≥ 5,7%.
+
+> [!IMPORTANT]
+> A classificação é experimental e não representa diagnóstico médico nem um sistema de triagem clinicamente validado.
+
+---
+
+### 📊 Dataset e preparação
+
+**Fonte:** NHANES 2021–2023.
+
+**Arquivo utilizado:** `dataset/healthsync_nhanes_2021_2023_core.csv`
+
+Foram selecionados apenas participantes com `diabetes_informado == "Nao"`. As categorias `Sim` e `Borderline` não foram incluídas.
+
+| Indicador | Quantidade |
+|---|---:|
+| Participantes iniciais | 5.283 |
+| Participantes após o filtro | 4.360 |
+| Classe 0 — HbA1c < 5,7% | 3.089 |
+| Classe 1 — HbA1c ≥ 5,7% | 1.271 |
+| Conjunto de treinamento | 3.488 |
+| Conjunto de teste | 872 |
+
+A divisão foi estratificada, reservando:
+
+- **80%** dos registros para treinamento;
+- **20%** para avaliação final;
+- `random_state=42` para garantir a reprodutibilidade.
+
+---
+
+### 🔬 Variáveis de entrada
+
+Foram desenvolvidas duas versões experimentais para avaliar o efeito da inclusão de informações adicionais.
+
+#### Versão A — Variáveis básicas
+
+Utiliza seis variáveis:
+
+1. Idade;
+2. Índice de massa corporal (IMC);
+3. Pressão arterial sistólica;
+4. Pressão arterial diastólica;
+5. Colesterol total;
+6. Sexo.
+
+#### Versão B — Variáveis ampliadas
+
+Utiliza todas as variáveis da **Versão A**, acrescentando:
+
+7. Hipertensão informada (`hipertensao_informada`).
+
+> [!NOTE]
+> A variável `diabetes_informado` foi utilizada exclusivamente para filtrar os participantes. Ela não foi utilizada como entrada dos classificadores.
+
+Para prevenir vazamento de dados (*data leakage*), foram excluídas das features a HbA1c contínua, `perfil_id`, identificadores dos participantes e variáveis que pudessem revelar diretamente o alvo.
+
+---
+
+### ⚙️ Treinamento e prevenção de vazamento de dados
+
+Foram utilizados dois algoritmos supervisionados:
+
+- **Regressão Logística**
+- **Random Forest**
+
+Cada algoritmo foi treinado nas versões A e B, totalizando **quatro modelos**.
+
+O pré-processamento foi implementado com pipelines do `scikit-learn`, utilizando:
+
+- `SimpleImputer` para tratamento de valores ausentes;
+- `OneHotEncoder` para codificação das variáveis categóricas;
+- `RobustScaler` para escalonamento das variáveis numéricas;
+- `ColumnTransformer` para organizar as transformações.
+
+A validação cruzada utilizou `StratifiedKFold`, com **5 folds**, exclusivamente no conjunto de treinamento.
+
+Os transformadores foram ajustados dentro de cada fold, evitando que informações das amostras de validação fossem utilizadas durante o ajuste do pré-processamento.
+
+---
+
+### 📈 Resultados da validação cruzada
+
+Os resultados médios obtidos durante a validação cruzada foram:
+
+| Versão | Modelo | AUC-ROC média | F1 médio |
+|---|---|---:|---:|
+| A | Regressão Logística | 0,7150 | 0,5291 |
+| A | Random Forest | 0,6872 | 0,3806 |
+| B | Regressão Logística | **0,7172** | **0,5305** |
+| B | Random Forest | 0,6863 | 0,3867 |
+
+A **Regressão Logística da Versão B** apresentou a maior AUC-ROC média na validação cruzada.
+
+Entretanto, a diferença em relação à Versão A foi pequena, não sendo suficiente, isoladamente, para afirmar uma melhoria relevante.
+
+---
+
+### 📉 Resultados no conjunto de teste
+
+Os modelos foram avaliados nos **872 registros reservados**, que não participaram do ajuste dos pipelines.
+
+| Versão | Modelo | AUC-ROC | Sensibilidade | Especificidade | F1-score |
+|---|---|---:|---:|---:|---:|
+| A | Regressão Logística | **0,7257** | **72,83%** | 61,49% | **0,5465** |
+| A | Random Forest | 0,7071 | 35,43% | **85,28%** | 0,4138 |
+| B | Regressão Logística | 0,7249 | 70,87% | 62,46% | 0,5405 |
+| B | Random Forest | 0,7134 | 37,40% | 84,47% | 0,4270 |
+
+**Principais observações:**
+
+- A Regressão Logística apresentou maior sensibilidade na identificação da classe 1 (HbA1c ≥ 5,7%).
+- O Random Forest apresentou maior especificidade, porém menor sensibilidade.
+- A inclusão da variável `hipertensao_informada` não produziu uma melhoria consistente em todas as métricas.
+- A seleção de modelos deve considerar a validação cruzada realizada no treinamento, evitando decisões baseadas exclusivamente no conjunto de teste.
+
+---
+
+### 📁 Estrutura dos arquivos
+
+A implementação está organizada em uma pasta independente para preservar os modelos anteriores do projeto.
+
+```text
+Projeto-PISI3/
+│
+├── classificacao_l5/
+│   ├── preparacao_l5.py
+│   ├── treinamento_l5.py
+│   ├── avaliacao_l5.py
+│   └── teste_l5.py
+│
+├── dataset/
+│   └── healthsync_nhanes_2021_2023_core.csv
+│
+└── modelos/
+    ├── classificacao_L5/
+    │   ├── versao_A_regressao_logistica.joblib
+    │   ├── versao_A_random_forest.joblib
+    │   ├── versao_B_regressao_logistica.joblib
+    │   ├── versao_B_random_forest.joblib
+    │   └── metadados_l5.json
+    │
+    └── avaliacao_L5/
+        ├── validacao_cruzada_l5.csv
+        ├── validacao_cruzada_folds_l5.csv
+        ├── metricas_teste_l5.csv
+        ├── curvas_roc_l5.png
+        ├── curvas_roc_pontos_l5.csv
+        ├── importancia_variaveis_l5.csv
+        ├── matrizes_confusao/
+        └── importancia_variaveis/
+```
+
+---
+
+### ▶️ Como executar
+
+Execute os comandos abaixo a partir da raiz do projeto, com o ambiente Python configurado e as dependências instaladas.
+
+**1. Preparar os dados:**
+
+```bash
+python -m classificacao_l5.preparacao_l5
+```
+
+**2. Treinar os modelos:**
+
+```bash
+python -m classificacao_l5.treinamento_l5
+```
+
+**3. Avaliar os modelos:**
+
+```bash
+python -m classificacao_l5.avaliacao_l5
+```
+
+**4. Executar os testes automatizados:**
+
+```bash
+python -m pytest classificacao_l5/teste_l5.py -v
+```
+
+---
+
+### ✅ Testes automatizados
+
+A implementação possui uma suíte de testes com `pytest`, responsável por verificar:
+
+- Filtragem correta dos participantes;
+- Construção do alvo binário;
+- Exclusão de variáveis proibidas;
+- Divisão estratificada e reproduzível;
+- Ausência de sobreposição entre treino e teste;
+- Organização do pré-processamento dentro dos pipelines;
+- Validação cruzada utilizando apenas o treinamento;
+- Carregamento dos quatro modelos;
+- Consistência das métricas exportadas;
+- Presença das matrizes de confusão, curvas ROC e importâncias.
+
+**Resultado da execução:**
+
+```text
+=================== 22 passed in 16.24s ===================
+```
+
+Todos os 22 testes automatizados foram aprovados, sem falhas.
+
+---
+
+### ⚠️ Limitações metodológicas
+
+Os resultados constituem evidência exploratória de capacidade preditiva moderada para a faixa de HbA1c.
+
+Entre as limitações identificadas estão:
+
+- Utilização de dados observacionais, sem demonstração de causalidade;
+- Ausência de diabetes definida por informação autorrelatada;
+- Desbalanceamento entre as classes;
+- Ausência de validação externa independente;
+- Ausência de avaliação clínica prospectiva;
+- Necessidade de considerar o desenho amostral complexo do NHANES para inferências populacionais;
+- Importâncias por permutação calculadas no conjunto de teste apenas para interpretação exploratória, sem reutilização para selecionar variáveis e reavaliar o mesmo teste.
+
+> [!WARNING]
+> Os modelos não são instrumentos clinicamente validados para diagnosticar diabetes, determinar risco individual ou orientar decisões médicas.
+
+A possível integração ao aplicativo **HealthSync** permanece como uma etapa futura, condicionada a validações adicionais.
+
 ## 🖥️ Dashboard
 
 O projeto possui um dashboard desenvolvido com Dash,
@@ -277,3 +519,4 @@ ser interpretados como diagnósticos individuais.
 | Modelos de estimativa de risco | ⏳ Pendente |
 | Dashboard | 🚧 Em desenvolvimento |
 | Integração com o HealthSync | ⏳ Pendente |
+
