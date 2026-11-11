@@ -1,2 +1,0 @@
-
-    return carregar_modelos()

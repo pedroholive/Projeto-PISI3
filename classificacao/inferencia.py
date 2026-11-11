@@ -1,4 +1,12 @@
 
+"""Inferência de atribuição de subperfil (não diagnóstico clínico).
+
+LIMITAÇÃO: hba1c é obrigatória para selecionar o estrato/modelo,
+mas não integra as cinco variáveis de entrada do classificador.
+
+Sem um valor válido de HbA1c, a inferência atual não é possível.
+"""
+
 import math
 
 import pandas as pd
@@ -12,7 +20,7 @@ from classificacao.avaliacao import carregar_modelos
 
 
 def identificar_estrato(hba1c):
-    """Identifica o estrato glicêmico do paciente."""
+    """Seleciona o estrato usando a HbA1c disponível."""
 
     hba1c = float(hba1c)
 
@@ -29,7 +37,13 @@ def identificar_estrato(hba1c):
 
 
 def classificar_paciente(dados_paciente, modelos):
-    """Classifica um paciente usando o modelo do estrato."""
+    """Atribui um subperfil estatístico.
+
+    O nome classificar_paciente é mantido para preservar
+    a compatibilidade com integrações existentes.
+
+    O resultado não indica diagnóstico ou risco clínico validado.
+    """
 
     if "hba1c" not in dados_paciente:
         raise ValueError("Campo obrigatório ausente: hba1c")
@@ -61,7 +75,6 @@ def classificar_paciente(dados_paciente, modelos):
 
         valores[nome] = valor
 
-
     X_novo = pd.DataFrame(
         [valores],
         columns=FEATURES,
@@ -69,7 +82,9 @@ def classificar_paciente(dados_paciente, modelos):
 
     modelo = modelos[estrato]
 
-    perfil_id = str(modelo.predict(X_novo)[0])
+    perfil_id = str(
+        modelo.predict(X_novo)[0]
+    )
 
     probabilidades = modelo.predict_proba(X_novo)[0]
 
@@ -81,6 +96,9 @@ def classificar_paciente(dados_paciente, modelos):
     return {
         "estrato_hba1c": estrato,
         "perfil_id": perfil_id,
+
+        # Probabilidade estimada para um subperfil estatístico.
+        # NÃO representa probabilidade de doença.
         "confianca_modelo": round(confianca, 4),
     }
 
@@ -103,5 +121,6 @@ if __name__ == "__main__":
         modelos,
     )
 
-    print("\nRESULTADO DA CLASSIFICAÇÃO")
+    print("\nRESULTADO DA ATRIBUIÇÃO DE SUBPERFIL")
     print(resultado)
+
