@@ -1,0 +1,11 @@
+AUDITORIA DA BASE - HEALTHSYNC L5
+Participantes originais: 5283
+Participantes elegiveis: 4360
+Classe 0: 3089
+Classe 1: 1271
+Treinamento: 3488
+Teste: 872
+Sobreposicao de indices: 0
+IDs duplicados: 0
+
+Valores extremos identificados pelo IQR devem ser investigados, nao removidos automaticamente.

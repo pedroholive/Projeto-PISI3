@@ -1,0 +1,8 @@
+﻿variavel,tipo,ausentes,percentual_ausente,minimo,mediana,maximo,outliers_iqr,categorias
+idade,numerica,0,0.0,20.0,54.0,80.0,0.0,
+imc,numerica,0,0.0,14.9,27.8,68.9,120.0,
+pressao_sistolica,numerica,0,0.0,70.0,119.3,215.0,119.0,
+pressao_diastolica,numerica,0,0.0,34.0,74.3,131.0,65.0,
+colesterol_total,numerica,0,0.0,62.0,189.0,438.0,59.0,
+sexo,categorica,0,0.0,,,,,"{'Mulher': 2420, 'Homem': 1940}"
+hipertensao_informada,categorica,2,0.0459,,,,,"{0.0: 3017, 1.0: 1341, nan: 2}"
