@@ -1,0 +1,31 @@
+{
+  "descricao": "Selecao de hiperparametros e limiar em etapas, com avaliacao externa",
+  "n_treino": 3488,
+  "n_teste_reservado": 872,
+  "teste_utilizado": false,
+  "feature_set": "A",
+  "features": [
+    "idade",
+    "imc",
+    "pressao_sistolica",
+    "pressao_diastolica",
+    "colesterol_total",
+    "sexo"
+  ],
+  "n_folds_externos": 3,
+  "n_folds_internos": 3,
+  "n_folds_limiar_final": 3,
+  "semente": 42,
+  "objetivo_busca": "average_precision",
+  "objetivo_limiar": "max_precision_com_recall_minimo_em_oof",
+  "recall_minimo_exploratorio": 0.65,
+  "versao_sklearn": "1.9.1",
+  "observacoes": [
+    "SVM utiliza margem de decisao; limiares nao sao probabilidades.",
+    "Parametros finais foram reutilizados da busca anterior realizada somente no treino.",
+    "Precisao e Recall OOF do ajuste nao sao metricas de avaliacao independente.",
+    "A meta de Recall aplicada internamente nao e garantida nos folds externos.",
+    "Comparar/selecionar candidatos por CV e realizar avaliacao final uma unica vez.",
+    "Os modelos joblib foram ajustados somente com os 3488 exemplos de treinamento."
+  ]
+}

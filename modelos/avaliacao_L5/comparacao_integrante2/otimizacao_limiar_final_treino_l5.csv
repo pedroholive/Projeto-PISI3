@@ -1,0 +1,4 @@
+﻿modelo,tipo_score,limiar_sugerido,limiar_padrao,precision_oof_ajuste,recall_oof_ajuste
+regressao_logistica_pesos,probabilidade,0.5230452301779378,0.5,0.43704680290046144,0.6519174041297935
+regressao_logistica_smotenc,probabilidade,0.5253264743034874,0.5,0.43638760711931446,0.6509341199606686
+svm_rbf_pesos,margem_svm,0.2821886477915401,0.0,0.43517915309446253,0.6568338249754179

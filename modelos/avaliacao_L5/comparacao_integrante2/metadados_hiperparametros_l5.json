@@ -1,0 +1,39 @@
+{
+  "descricao": "Busca de hiperparametros com validacao cruzada aninhada; versao A",
+  "modelos": [
+    "regressao_logistica_pesos",
+    "svm_rbf_pesos"
+  ],
+  "n_treino": 3488,
+  "n_teste_reservado": 872,
+  "teste_utilizado": false,
+  "cv_externo": 3,
+  "cv_interno": 3,
+  "scoring_busca": "average_precision",
+  "random_state": 42,
+  "sklearn_versao": "1.9.1",
+  "criterio": "Melhora em AP de validacao; precision/recall usam limiar padrao",
+  "observacao": "Busca de parametros e comparacoes exploratorias. Se um modelo otimizado for escolhido, seu limiar deve ser reajustado com dados de treinamento. Nenhuma avaliacao clinica.",
+  "grades": {
+    "regressao_logistica_pesos": {
+      "modelo__C": [
+        0.05,
+        0.2,
+        1.0,
+        5.0
+      ]
+    },
+    "svm_rbf_pesos": {
+      "modelo__C": [
+        0.3,
+        1.0,
+        3.0
+      ],
+      "modelo__gamma": [
+        "scale",
+        0.03,
+        0.1
+      ]
+    }
+  }
+}

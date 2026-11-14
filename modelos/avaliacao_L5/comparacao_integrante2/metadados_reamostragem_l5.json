@@ -1,0 +1,30 @@
+{
+  "descricao": "Comparacao entre RandomOverSampler e SMOTENC",
+  "populacao": "diabetes_informado == 'Nao'",
+  "versao": "A",
+  "features": [
+    "idade",
+    "imc",
+    "pressao_sistolica",
+    "pressao_diastolica",
+    "colesterol_total",
+    "sexo"
+  ],
+  "n_treino": 3488,
+  "n_teste_reservado": 872,
+  "teste_utilizado": false,
+  "folds": 5,
+  "random_state": 42,
+  "metodos": [
+    "random_oversampler",
+    "smotenc"
+  ],
+  "algoritmos": [
+    "regressao_logistica",
+    "random_forest",
+    "svm_rbf",
+    "hist_gradient_boosting"
+  ],
+  "observacao": "Imputacao, reamostragem, codificacao e escalonamento ajustados apenas nos dados de treinamento de cada fold. O conjunto de validacao mantem a distribuicao original.",
+  "versao_imblearn": "0.14.2"
+}
