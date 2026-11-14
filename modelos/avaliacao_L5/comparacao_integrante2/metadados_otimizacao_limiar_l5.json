@@ -1,0 +1,34 @@
+{
+  "objetivo": "Maximizar Precision mantendo Recall minimo na validacao interna",
+  "recall_minimo_exploratorio": 0.65,
+  "populacao": "sem diabetes autorrelatado",
+  "versao": "A",
+  "features": [
+    "idade",
+    "imc",
+    "pressao_sistolica",
+    "pressao_diastolica",
+    "colesterol_total",
+    "sexo"
+  ],
+  "n_treino": 3488,
+  "n_teste_reservado": 872,
+  "teste_usado": false,
+  "validacao": "CV aninhada estratificada: limiar no fold interno, avaliacao no fold externo",
+  "folds_externos": 3,
+  "folds_internos": 3,
+  "folds_limiar_final": 5,
+  "semente": 42,
+  "modelos": [
+    "regressao_logistica_pesos",
+    "regressao_logistica_smotenc",
+    "svm_rbf_pesos"
+  ],
+  "score": {
+    "regressao_logistica_pesos": "probabilidade",
+    "regressao_logistica_smotenc": "probabilidade",
+    "svm_rbf_pesos": "margem_svm"
+  },
+  "versao_sklearn": "1.9.1",
+  "nota": "Precision/Recall OOF do arquivo de limiares refletem o ajuste do limiar e podem ser otimistas. Para avaliar o efeito do ajuste, consultar as metricas de CV externa. Os thresholds SVM sao margens, NAO probabilidades. Nenhuma validacao clinica foi realizada."
+}

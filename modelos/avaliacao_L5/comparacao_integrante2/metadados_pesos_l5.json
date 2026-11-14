@@ -1,0 +1,33 @@
+{
+  "descricao": "Versao A, balanceamento por pesos de classes",
+  "features": [
+    "idade",
+    "imc",
+    "pressao_sistolica",
+    "pressao_diastolica",
+    "colesterol_total",
+    "sexo"
+  ],
+  "n_treino": 3488,
+  "n_teste_reservado": 872,
+  "teste_utilizado": false,
+  "cv_folds": 5,
+  "random_state": 42,
+  "sklearn_versao": "1.9.1",
+  "metricas": [
+    "auc_roc",
+    "average_precision",
+    "f1",
+    "precisao",
+    "recall",
+    "acuracia",
+    "acuracia_balanceada"
+  ],
+  "algoritmos": [
+    "regressao_logistica",
+    "random_forest",
+    "svm_rbf",
+    "hist_gradient_boosting"
+  ],
+  "nota": "Os pesos sao ajustados dentro de cada fold, sem SMOTE."
+}

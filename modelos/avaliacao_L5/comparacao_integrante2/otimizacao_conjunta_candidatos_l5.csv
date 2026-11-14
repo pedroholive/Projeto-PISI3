@@ -1,0 +1,3 @@
+﻿modelo,parametros,origem_parametros,tipo_score,limiar_candidato,precision_oof_ajuste,recall_oof_ajuste,arquivo_joblib
+regressao_logistica_pesos,"{""modelo__C"": 0.05}",otimizacao_hiperparametros_l5,probabilidade,0.5160071420729446,0.43322475570032576,0.6538839724680433,modelos\classificacao_L5\candidatos_integrante2\regressao_logistica_pesos_otimizado.joblib
+svm_rbf_pesos,"{""modelo__C"": 0.3, ""modelo__gamma"": 0.03}",otimizacao_hiperparametros_l5,margem_svm,0.21534325702133947,0.43322475570032576,0.6538839724680433,modelos\classificacao_L5\candidatos_integrante2\svm_rbf_pesos_otimizado.joblib

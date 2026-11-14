@@ -1,0 +1,41 @@
+{
+  "descricao": "Comparacao L5 de algoritmos sem balanceamento",
+  "populacao": "diabetes_informado == 'Nao'",
+  "alvo": "Classe 0: HbA1c < 5.7; Classe 1: HbA1c >= 5.7",
+  "versao_features": "A",
+  "features": [
+    "idade",
+    "imc",
+    "pressao_sistolica",
+    "pressao_diastolica",
+    "colesterol_total",
+    "sexo"
+  ],
+  "n_treino": 3488,
+  "n_teste_reservado": 872,
+  "teste_utilizado": false,
+  "cv": "StratifiedKFold",
+  "folds": 5,
+  "shuffle": true,
+  "random_state": 42,
+  "balanceamento": "nenhum",
+  "algoritmos": [
+    "dummy",
+    "regressao_logistica",
+    "random_forest",
+    "svm_rbf",
+    "hist_gradient_boosting"
+  ],
+  "metricas": [
+    "auc_roc",
+    "average_precision",
+    "f1",
+    "precisao",
+    "recall",
+    "acuracia",
+    "acuracia_balanceada"
+  ],
+  "limiar_predicao": "padrao de cada estimador",
+  "sklearn_versao": "1.9.1",
+  "observacao": "Resultados apenas da validacao cruzada no treinamento. Nao representam validacao clinica."
+}

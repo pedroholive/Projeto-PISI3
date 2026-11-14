@@ -1,0 +1,3 @@
+﻿algoritmo,melhor_ap_cv_interna,parametros_candidatos
+regressao_logistica_pesos,0.47145690915857497,"{""modelo__C"": 0.05}"
+svm_rbf_pesos,0.4718156179839832,"{""modelo__C"": 0.3, ""modelo__gamma"": 0.03}"
