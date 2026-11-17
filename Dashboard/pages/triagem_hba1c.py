@@ -108,8 +108,8 @@ def criar_kpis(df):
     itens = [
         ("E1 essencial", "Variáveis que o app coleta: idade, sexo, IMC, "
                           "pressões e colesterol."),
-        ("E4 ampliada", "Essencial + estilo de vida + hipertensão e "
-                         "colesterol alto informados."),
+        ("E7 + cintura e HDL", "Essencial + estilo de vida + informadas + "
+                                "cintura e HDL (conjunto do simulador)."),
         ("E5 jejum sem glicose", "Mesmas pessoas do experimento com glicose "
                                   "(comparação justa)."),
         ("E6 jejum com glicose", "Essencial + glicose em jejum (exige exame)."),
@@ -238,7 +238,7 @@ layout = html.Div(
                 "Ao contrário da atribuição de subperfil, o alvo aqui não é "
                 "derivado das entradas, então a AUC mede capacidade real de "
                 "separar os dois grupos. Com as variáveis que o app coleta o "
-                "desempenho é moderado (AUC ≈ 0,75). A glicemia em jejum "
+                "desempenho é moderado (AUC entre 0,75 e 0,78). A glicemia em jejum "
                 "melhora bastante, mas exige exame laboratorial.",
             ],
             className="cf-info",

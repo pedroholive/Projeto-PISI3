@@ -93,6 +93,32 @@ todos,E6 jejum com glicose,Random Forest,pressao_sistolica,0.004174037771933914,
 todos,E6 jejum com glicose,Random Forest,pressao_diastolica,0.003326559885249747,0.0017532458631304797
 todos,E6 jejum com glicose,Random Forest,colesterol_total,0.0001159454936647486,0.0039990297502697034
 todos,E6 jejum com glicose,Random Forest,glicose_jejum,0.17773607458761642,0.014951863629098854
+todos,E7 + cintura e HDL,Regressão Logística,idade,0.10785055896249371,0.010717322568727598
+todos,E7 + cintura e HDL,Regressão Logística,sexo_homem,-8.236553825879956e-06,0.0011285879738324115
+todos,E7 + cintura e HDL,Regressão Logística,imc,0.009967727684554995,0.004138419870222883
+todos,E7 + cintura e HDL,Regressão Logística,pressao_sistolica,0.0022650523021168325,0.0011494077932239686
+todos,E7 + cintura e HDL,Regressão Logística,pressao_diastolica,1.6847496462024658e-05,9.711403262987469e-05
+todos,E7 + cintura e HDL,Regressão Logística,colesterol_total,0.00041632035701717475,0.0003068106592056236
+todos,E7 + cintura e HDL,Regressão Logística,atv_moderada_min_semana,-0.00012130197452659974,0.0003749095972753114
+todos,E7 + cintura e HDL,Regressão Logística,atv_vigorosa_min_semana,3.7438881026363726e-06,4.369295463424352e-05
+todos,E7 + cintura e HDL,Regressão Logística,minutos_sedentarios_dia,0.004802659658108166,0.0015347144921043572
+todos,E7 + cintura e HDL,Regressão Logística,hipertensao_informada,0.004022807766321479,0.001701751998316388
+todos,E7 + cintura e HDL,Regressão Logística,colesterol_alto_informado,0.009917559583979163,0.0027180880310889565
+todos,E7 + cintura e HDL,Regressão Logística,cintura_cm,0.005936308975597338,0.0036817884428242626
+todos,E7 + cintura e HDL,Regressão Logística,hdl,0.0432988146850267,0.003449783055922262
+todos,E7 + cintura e HDL,Random Forest,idade,0.08611803730410103,0.009914180470830964
+todos,E7 + cintura e HDL,Random Forest,sexo_homem,-0.00052526750080496,0.0009270369692232289
+todos,E7 + cintura e HDL,Random Forest,imc,0.007930303779080605,0.004719918053163935
+todos,E7 + cintura e HDL,Random Forest,pressao_sistolica,0.00717665910401265,0.0021171595857628765
+todos,E7 + cintura e HDL,Random Forest,pressao_diastolica,-0.0013672679350959839,0.0017433617459776747
+todos,E7 + cintura e HDL,Random Forest,colesterol_total,0.008616558468300473,0.0036151349725328267
+todos,E7 + cintura e HDL,Random Forest,atv_moderada_min_semana,0.00302768230863113,0.001866732830671223
+todos,E7 + cintura e HDL,Random Forest,atv_vigorosa_min_semana,0.0025151440273752713,0.0022781740914871586
+todos,E7 + cintura e HDL,Random Forest,minutos_sedentarios_dia,0.004448487843595339,0.001270619363201883
+todos,E7 + cintura e HDL,Random Forest,hipertensao_informada,0.007908963616895404,0.0032080272622443686
+todos,E7 + cintura e HDL,Random Forest,colesterol_alto_informado,0.012085645184236715,0.0030176097862384334
+todos,E7 + cintura e HDL,Random Forest,cintura_cm,0.011259369079976923,0.004820380373063089
+todos,E7 + cintura e HDL,Random Forest,hdl,0.02614619134263314,0.002945115744275467
 sem_diagnostico,E1 essencial,Regressão Logística,idade,0.17666526514282807,0.010569320737556691
 sem_diagnostico,E1 essencial,Regressão Logística,sexo_homem,0.001200214050913606,0.0014046194093065899
 sem_diagnostico,E1 essencial,Regressão Logística,imc,0.04658410417144467,0.007978107094468041
@@ -187,3 +213,29 @@ sem_diagnostico,E6 jejum com glicose,Random Forest,pressao_sistolica,0.011566921
 sem_diagnostico,E6 jejum com glicose,Random Forest,pressao_diastolica,-0.0045535859489348575,0.004252197312036703
 sem_diagnostico,E6 jejum com glicose,Random Forest,colesterol_total,0.003089933322491423,0.005477550524972183
 sem_diagnostico,E6 jejum com glicose,Random Forest,glicose_jejum,0.0985993657505285,0.01923018912889886
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,idade,0.14926738526616218,0.010108746423915037
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,sexo_homem,0.00010893662564032125,0.0008879497530440984
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,imc,0.017636266340493957,0.006170972743326652
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,pressao_sistolica,0.0019200876589456017,0.0012136556025715477
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,pressao_diastolica,-0.0005395866778787894,0.0005139749462301227
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,colesterol_total,0.002820885253421035,0.0022287208320999636
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,atv_moderada_min_semana,0.000516015595138064,0.0007050863503956018
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,atv_vigorosa_min_semana,0.00014907117192880515,0.0002254891314210283
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,minutos_sedentarios_dia,0.011223020666106132,0.002549605686360183
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,hipertensao_informada,0.0021717248936116485,0.001287063255621686
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,colesterol_alto_informado,0.0004854368932039721,0.0013338011508700971
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,cintura_cm,0.00035292918482283665,0.0008045756132430971
+sem_diagnostico,E7 + cintura e HDL,Regressão Logística,hdl,0.021224167367428624,0.009047074200413804
+sem_diagnostico,E7 + cintura e HDL,Random Forest,idade,0.12356343806538754,0.009755231969449859
+sem_diagnostico,E7 + cintura e HDL,Random Forest,sexo_homem,0.0026418724358485022,0.0014018424753559665
+sem_diagnostico,E7 + cintura e HDL,Random Forest,imc,0.00625589277068529,0.00508468225081103
+sem_diagnostico,E7 + cintura e HDL,Random Forest,pressao_sistolica,0.0071624238717734046,0.003060825834303159
+sem_diagnostico,E7 + cintura e HDL,Random Forest,pressao_diastolica,0.0005434090156207327,0.0013529193399496634
+sem_diagnostico,E7 + cintura e HDL,Random Forest,colesterol_total,0.0027966771143898895,0.0032828222111617447
+sem_diagnostico,E7 + cintura e HDL,Random Forest,atv_moderada_min_semana,0.008443544071554255,0.002901196872061453
+sem_diagnostico,E7 + cintura e HDL,Random Forest,atv_vigorosa_min_semana,0.0066502306143771395,0.0018929116527944042
+sem_diagnostico,E7 + cintura e HDL,Random Forest,minutos_sedentarios_dia,0.010913411309023324,0.0016111113277404816
+sem_diagnostico,E7 + cintura e HDL,Random Forest,hipertensao_informada,0.006915246031139344,0.002388796722424478
+sem_diagnostico,E7 + cintura e HDL,Random Forest,colesterol_alto_informado,0.0013556557857452912,0.002611837250020681
+sem_diagnostico,E7 + cintura e HDL,Random Forest,cintura_cm,0.004544759574956125,0.00436490794334383
+sem_diagnostico,E7 + cintura e HDL,Random Forest,hdl,0.012453176362663455,0.005466827056135019

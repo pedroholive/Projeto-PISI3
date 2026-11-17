@@ -18,6 +18,7 @@ Experimentos (cada um em duas populações):
   E4 ampliada         E1 + estilo de vida + informadas
   E5 jejum sem glicose  (arquivo fasting) igual a E1, mesmas pessoas do E6
   E6 jejum com glicose  (arquivo fasting) E1 + glicose em jejum
+  E7 + cintura e HDL  (dataset v2) E4 + circunferência da cintura e HDL
 
 Populações:
   todos            toda a base do arquivo
@@ -61,6 +62,7 @@ from sklearn.preprocessing import RobustScaler
 RAIZ = Path(__file__).resolve().parents[1]
 CSV_CORE = RAIZ / "dataset" / "healthsync_nhanes_2021_2023_core.csv"
 CSV_JEJUM = RAIZ / "dataset" / "healthsync_nhanes_2021_2023_fasting.csv"
+CSV_V2 = RAIZ / "dataset" / "healthsync_classificacao_v2.csv"
 SAIDA = RAIZ / "modelos" / "classificacao_binaria"
 
 LIMIAR_HBA1C = 5.7
@@ -71,6 +73,7 @@ BASE = ["idade", "sexo_homem", "imc", "pressao_sistolica",
 VIDA = ["atv_moderada_min_semana", "atv_vigorosa_min_semana",
         "minutos_sedentarios_dia"]
 INFORMADAS = ["hipertensao_informada", "colesterol_alto_informado"]
+MEDIDAS = ["cintura_cm", "hdl"]
 
 # nome, arquivo, variáveis
 EXPERIMENTOS = [
@@ -80,13 +83,14 @@ EXPERIMENTOS = [
     ("E4 ampliada", "core", BASE + VIDA + INFORMADAS),
     ("E5 jejum sem glicose", "jejum", BASE),
     ("E6 jejum com glicose", "jejum", BASE + ["glicose_jejum"]),
+    ("E7 + cintura e HDL", "v2", BASE + VIDA + INFORMADAS + MEDIDAS),
 ]
 POPULACOES = ["todos", "sem_diagnostico"]
 
 
 def carregar(arquivo, populacao):
-    df = pd.read_csv(CSV_CORE if arquivo == "core" else CSV_JEJUM,
-                     encoding="utf-8-sig")
+    caminho = {"core": CSV_CORE, "jejum": CSV_JEJUM, "v2": CSV_V2}[arquivo]
+    df = pd.read_csv(caminho, encoding="utf-8-sig")
     df["sexo_homem"] = (df["sexo"] == "Homem").astype(float)
     if populacao == "sem_diagnostico":
         df = df[df["diabetes_informado"] == "Nao"]
