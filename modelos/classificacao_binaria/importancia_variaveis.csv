@@ -1,0 +1,189 @@
+populacao,experimento,modelo,variavel,queda_auc_media,queda_auc_dp
+todos,E1 essencial,Regressão Logística,idade,0.1625981834654925,0.013326170046970648
+todos,E1 essencial,Regressão Logística,sexo_homem,0.002094331004634864,0.0010246129156310365
+todos,E1 essencial,Regressão Logística,imc,0.0660197228025248,0.009815729654582477
+todos,E1 essencial,Regressão Logística,pressao_sistolica,0.00469970273528455,0.0022011770066368438
+todos,E1 essencial,Regressão Logística,pressao_diastolica,-2.807916077014472e-05,8.31151590931289e-05
+todos,E1 essencial,Regressão Logística,colesterol_total,0.0047640976106505415,0.0021368441002702953
+todos,E1 essencial,Random Forest,idade,0.13185599508801876,0.010286389350484
+todos,E1 essencial,Random Forest,sexo_homem,0.0015705610590710296,0.0017716466573908499
+todos,E1 essencial,Random Forest,imc,0.062481374156689175,0.010636015848939051
+todos,E1 essencial,Random Forest,pressao_sistolica,0.018971778571482044,0.0041841899121010965
+todos,E1 essencial,Random Forest,pressao_diastolica,0.0007907091672843758,0.0041720528374215365
+todos,E1 essencial,Random Forest,colesterol_total,0.016084866455511347,0.00585701327433576
+todos,E2 + estilo de vida,Regressão Logística,idade,0.160924665483598,0.013674921301976927
+todos,E2 + estilo de vida,Regressão Logística,sexo_homem,0.0025289964133552003,0.0010586233384583808
+todos,E2 + estilo de vida,Regressão Logística,imc,0.0684805804524114,0.009919408608258743
+todos,E2 + estilo de vida,Regressão Logística,pressao_sistolica,0.004371738137490522,0.0019505880137880398
+todos,E2 + estilo de vida,Regressão Logística,pressao_diastolica,8.873014803332247e-05,0.00013671139472370812
+todos,E2 + estilo de vida,Regressão Logística,colesterol_total,0.005013066169478308,0.0019145784001501638
+todos,E2 + estilo de vida,Regressão Logística,atv_moderada_min_semana,-7.749848372533563e-05,0.0001099078277985306
+todos,E2 + estilo de vida,Regressão Logística,atv_vigorosa_min_semana,0.00012953852835244638,0.00010364824220014765
+todos,E2 + estilo de vida,Regressão Logística,minutos_sedentarios_dia,0.003378484623851519,0.001829306942846762
+todos,E2 + estilo de vida,Random Forest,idade,0.11992946514814569,0.011023848632019249
+todos,E2 + estilo de vida,Random Forest,sexo_homem,0.003023564031718251,0.0011871870944570914
+todos,E2 + estilo de vida,Random Forest,imc,0.05370233094473274,0.008481645422689256
+todos,E2 + estilo de vida,Random Forest,pressao_sistolica,0.013778631384265216,0.002844450887104011
+todos,E2 + estilo de vida,Random Forest,pressao_diastolica,-0.0009333513039961993,0.0023751882652034216
+todos,E2 + estilo de vida,Random Forest,colesterol_total,0.014278440445971975,0.004994082853658664
+todos,E2 + estilo de vida,Random Forest,atv_moderada_min_semana,0.0021796916533758813,0.004029587236818721
+todos,E2 + estilo de vida,Random Forest,atv_vigorosa_min_semana,0.003415174727257786,0.0026380790477687345
+todos,E2 + estilo de vida,Random Forest,minutos_sedentarios_dia,0.007025780413475025,0.0020158890308478146
+todos,E3 + informadas,Regressão Logística,idade,0.11193514088250929,0.011961474234628367
+todos,E3 + informadas,Regressão Logística,sexo_homem,0.0017263068041421747,0.0008699453105706736
+todos,E3 + informadas,Regressão Logística,imc,0.04929540025907706,0.008321221730482225
+todos,E3 + informadas,Regressão Logística,pressao_sistolica,0.0017712334613742442,0.0010558195253402248
+todos,E3 + informadas,Regressão Logística,pressao_diastolica,-6.439487536601396e-05,0.0002688872841957454
+todos,E3 + informadas,Regressão Logística,colesterol_total,0.004022807766321412,0.001770287701055392
+todos,E3 + informadas,Regressão Logística,hipertensao_informada,0.006151208152690735,0.0020890553426788296
+todos,E3 + informadas,Regressão Logística,colesterol_alto_informado,0.01650642825587224,0.003444757302625774
+todos,E3 + informadas,Random Forest,idade,0.09138306714288918,0.010186642098214916
+todos,E3 + informadas,Random Forest,sexo_homem,0.0008551040426503454,0.002132850171426393
+todos,E3 + informadas,Random Forest,imc,0.04813666689129993,0.00876103769552554
+todos,E3 + informadas,Random Forest,pressao_sistolica,0.010959109254142618,0.002288977669586179
+todos,E3 + informadas,Random Forest,pressao_diastolica,-0.00033507798518919165,0.002950777774774317
+todos,E3 + informadas,Random Forest,colesterol_total,0.012085645184236693,0.004478002395795918
+todos,E3 + informadas,Random Forest,hipertensao_informada,0.006928813711615756,0.003383924419515953
+todos,E3 + informadas,Random Forest,colesterol_alto_informado,0.015432681148025828,0.002634154785633285
+todos,E4 ampliada,Regressão Logística,idade,0.10796474754962526,0.012133927501882774
+todos,E4 ampliada,Regressão Logística,sexo_homem,0.0022073964253356616,0.0009652760046793448
+todos,E4 ampliada,Regressão Logística,imc,0.05184386489056617,0.008402787028236096
+todos,E4 ampliada,Regressão Logística,pressao_sistolica,0.001334696108602762,0.0007996234212919232
+todos,E4 ampliada,Regressão Logística,pressao_diastolica,-3.556693697532864e-05,0.00038544323525635933
+todos,E4 ampliada,Regressão Logística,colesterol_total,0.0042676580482363,0.001637535270814632
+todos,E4 ampliada,Regressão Logística,atv_moderada_min_semana,-0.00016585424294838225,0.0002605920935956992
+todos,E4 ampliada,Regressão Logística,atv_vigorosa_min_semana,0.0002549587797920583,0.00018053500487123908
+todos,E4 ampliada,Regressão Logística,minutos_sedentarios_dia,0.004187913231649354,0.0019339341642121391
+todos,E4 ampliada,Regressão Logística,hipertensao_informada,0.006017176958615078,0.002290043533680406
+todos,E4 ampliada,Regressão Logística,colesterol_alto_informado,0.017050415197190603,0.003486265420788384
+todos,E4 ampliada,Random Forest,idade,0.08641268129778144,0.010871914301291077
+todos,E4 ampliada,Random Forest,sexo_homem,0.001859589220597413,0.0012240923126148522
+todos,E4 ampliada,Random Forest,imc,0.040398424571886436,0.007609529748566492
+todos,E4 ampliada,Random Forest,pressao_sistolica,0.007704547326489564,0.002581611852364244
+todos,E4 ampliada,Random Forest,pressao_diastolica,-0.0007794775029763557,0.0014323636388959725
+todos,E4 ampliada,Random Forest,colesterol_total,0.012255992092908386,0.004025296168344768
+todos,E4 ampliada,Random Forest,atv_moderada_min_semana,0.0030733577434837846,0.0025024258142953147
+todos,E4 ampliada,Random Forest,atv_vigorosa_min_semana,0.0024039505507259416,0.0036008599966917726
+todos,E4 ampliada,Random Forest,minutos_sedentarios_dia,0.005460086408937481,0.0014341751986256198
+todos,E4 ampliada,Random Forest,hipertensao_informada,0.011073297841274133,0.0033255097610284095
+todos,E4 ampliada,Random Forest,colesterol_alto_informado,0.013672304962149318,0.0030032043382597373
+todos,E5 jejum sem glicose,Regressão Logística,idade,0.1769376045900073,0.011247855102876247
+todos,E5 jejum sem glicose,Regressão Logística,sexo_homem,-0.00264523069567284,0.0021845235878377267
+todos,E5 jejum sem glicose,Regressão Logística,imc,0.05126464260100416,0.011826247052962209
+todos,E5 jejum sem glicose,Regressão Logística,pressao_sistolica,0.002339230217547339,0.0016250477970893814
+todos,E5 jejum sem glicose,Regressão Logística,pressao_diastolica,0.001749940234281755,0.0009112843442940556
+todos,E5 jejum sem glicose,Regressão Logística,colesterol_total,0.006032751613674536,0.003732674341202701
+todos,E5 jejum sem glicose,Random Forest,idade,0.15471790580922776,0.012636812446524955
+todos,E5 jejum sem glicose,Random Forest,sexo_homem,0.0008223762849628779,0.0012596118224664195
+todos,E5 jejum sem glicose,Random Forest,imc,0.03051757112120481,0.009060868379803595
+todos,E5 jejum sem glicose,Random Forest,pressao_sistolica,0.008585943103036009,0.005038413969722123
+todos,E5 jejum sem glicose,Random Forest,pressao_diastolica,0.002367917762371419,0.002798442315110835
+todos,E5 jejum sem glicose,Random Forest,colesterol_total,0.0038345684915132017,0.006464548755308513
+todos,E6 jejum com glicose,Regressão Logística,idade,0.07848912263925427,0.00737636466950896
+todos,E6 jejum com glicose,Regressão Logística,sexo_homem,0.0031018407841263973,0.0012794359336897338
+todos,E6 jejum com glicose,Regressão Logística,imc,0.015106382978723566,0.005397377933086528
+todos,E6 jejum com glicose,Regressão Logística,pressao_sistolica,0.0007996653119771602,0.0009106922806004177
+todos,E6 jejum com glicose,Regressão Logística,pressao_diastolica,0.0021790580922784186,0.0009295066113699889
+todos,E6 jejum com glicose,Regressão Logística,colesterol_total,0.0011534783648100677,0.0023793437326352397
+todos,E6 jejum com glicose,Regressão Logística,glicose_jejum,0.16467248386325617,0.01432637427004434
+todos,E6 jejum com glicose,Random Forest,idade,0.07334329428639721,0.007187007825186464
+todos,E6 jejum com glicose,Random Forest,sexo_homem,0.003085106382978653,0.0014609309023508722
+todos,E6 jejum com glicose,Random Forest,imc,0.008533349270858148,0.004116380329908522
+todos,E6 jejum com glicose,Random Forest,pressao_sistolica,0.004174037771933914,0.0021371525621632316
+todos,E6 jejum com glicose,Random Forest,pressao_diastolica,0.003326559885249747,0.0017532458631304797
+todos,E6 jejum com glicose,Random Forest,colesterol_total,0.0001159454936647486,0.0039990297502697034
+todos,E6 jejum com glicose,Random Forest,glicose_jejum,0.17773607458761642,0.014951863629098854
+sem_diagnostico,E1 essencial,Regressão Logística,idade,0.17666526514282807,0.010569320737556691
+sem_diagnostico,E1 essencial,Regressão Logística,sexo_homem,0.001200214050913606,0.0014046194093065899
+sem_diagnostico,E1 essencial,Regressão Logística,imc,0.04658410417144467,0.007978107094468041
+sem_diagnostico,E1 essencial,Regressão Logística,pressao_sistolica,0.0014671406365467377,0.0018174961405735977
+sem_diagnostico,E1 essencial,Regressão Logística,pressao_diastolica,-0.0002809418240195094,0.000643196273193943
+sem_diagnostico,E1 essencial,Regressão Logística,colesterol_total,0.00023252554595732945,0.0008947557085632643
+sem_diagnostico,E1 essencial,Random Forest,idade,0.14827548862217457,0.013773682793283906
+sem_diagnostico,E1 essencial,Random Forest,sexo_homem,0.002118212165226874,0.0026263695395056597
+sem_diagnostico,E1 essencial,Random Forest,imc,0.0654326886323675,0.009963883974281695
+sem_diagnostico,E1 essencial,Random Forest,pressao_sistolica,0.019768493744107163,0.006288404197202506
+sem_diagnostico,E1 essencial,Random Forest,pressao_diastolica,0.002320796065540287,0.0038405873004282195
+sem_diagnostico,E1 essencial,Random Forest,colesterol_total,0.004641592131080663,0.004974528763838487
+sem_diagnostico,E2 + estilo de vida,Regressão Logística,idade,0.1739577759090794,0.010665204875184686
+sem_diagnostico,E2 + estilo de vida,Regressão Logística,sexo_homem,0.002749534948908139,0.0012771451818178597
+sem_diagnostico,E2 + estilo de vida,Regressão Logística,imc,0.04974008103356022,0.00785147457346966
+sem_diagnostico,E2 + estilo de vida,Regressão Logística,pressao_sistolica,0.0015798995999287135,0.0015111775533540514
+sem_diagnostico,E2 + estilo de vida,Regressão Logística,pressao_diastolica,0.0003599368040160811,0.0007947248496380709
+sem_diagnostico,E2 + estilo de vida,Regressão Logística,colesterol_total,0.0007708381112556007,0.0009876304029714166
+sem_diagnostico,E2 + estilo de vida,Regressão Logística,atv_moderada_min_semana,2.548225161314033e-06,5.096450322308877e-06
+sem_diagnostico,E2 + estilo de vida,Regressão Logística,atv_vigorosa_min_semana,0.0002682006982137608,0.00012533829548251244
+sem_diagnostico,E2 + estilo de vida,Regressão Logística,minutos_sedentarios_dia,0.011907856178171949,0.002774929450332138
+sem_diagnostico,E2 + estilo de vida,Random Forest,idade,0.14837168412200902,0.01176298376149575
+sem_diagnostico,E2 + estilo de vida,Random Forest,sexo_homem,0.002692199882781632,0.0012685299299164416
+sem_diagnostico,E2 + estilo de vida,Random Forest,imc,0.05548951405346177,0.009518804638402852
+sem_diagnostico,E2 + estilo de vida,Random Forest,pressao_sistolica,0.008616186326223806,0.004345610503892231
+sem_diagnostico,E2 + estilo de vida,Random Forest,pressao_diastolica,-0.0007580969854496189,0.0030828061603467693
+sem_diagnostico,E2 + estilo de vida,Random Forest,colesterol_total,0.0053289758683076945,0.005184225569132347
+sem_diagnostico,E2 + estilo de vida,Random Forest,atv_moderada_min_semana,0.01104145962337233,0.002859692823314817
+sem_diagnostico,E2 + estilo de vida,Random Forest,atv_vigorosa_min_semana,0.01034069770404913,0.0033473956522539765
+sem_diagnostico,E2 + estilo de vida,Random Forest,minutos_sedentarios_dia,0.007969574191575578,0.002224193337814551
+sem_diagnostico,E3 + informadas,Regressão Logística,idade,0.15434153861835237,0.010202038724326028
+sem_diagnostico,E3 + informadas,Regressão Logística,sexo_homem,0.001553143235736376,0.0015338743913710046
+sem_diagnostico,E3 + informadas,Regressão Logística,imc,0.04096080829702119,0.007347161136971623
+sem_diagnostico,E3 + informadas,Regressão Logística,pressao_sistolica,0.0015295721529955063,0.0013921493321426281
+sem_diagnostico,E3 + informadas,Regressão Logística,pressao_diastolica,-0.0001579899599928325,0.0006020084193105014
+sem_diagnostico,E3 + informadas,Regressão Logística,colesterol_total,0.00021532502611935068,0.0008908853553834505
+sem_diagnostico,E3 + informadas,Regressão Logística,hipertensao_informada,0.000638967459164741,0.001545036980018003
+sem_diagnostico,E3 + informadas,Regressão Logística,colesterol_alto_informado,0.0015971001197666256,0.0019487656048003286
+sem_diagnostico,E3 + informadas,Random Forest,idade,0.12090372805341076,0.011859884575269056
+sem_diagnostico,E3 + informadas,Random Forest,sexo_homem,0.0019436587416863493,0.003630552945904459
+sem_diagnostico,E3 + informadas,Random Forest,imc,0.05505631577606194,0.008789359252710582
+sem_diagnostico,E3 + informadas,Random Forest,pressao_sistolica,0.011869632800754237,0.0038019237595947704
+sem_diagnostico,E3 + informadas,Random Forest,pressao_diastolica,-0.0015894554442831166,0.002890873073148769
+sem_diagnostico,E3 + informadas,Random Forest,colesterol_total,0.0016506128481512338,0.0035779459368537434
+sem_diagnostico,E3 + informadas,Random Forest,hipertensao_informada,0.0031929261269525223,0.004741465616676686
+sem_diagnostico,E3 + informadas,Random Forest,colesterol_alto_informado,0.0047645439951073286,0.003537162848158258
+sem_diagnostico,E4 ampliada,Regressão Logística,idade,0.14610886017888536,0.01005034306542439
+sem_diagnostico,E4 ampliada,Regressão Logística,sexo_homem,0.0017340672221797027,0.0012609846572637553
+sem_diagnostico,E4 ampliada,Regressão Logística,imc,0.041812552557143876,0.0072707941906999815
+sem_diagnostico,E4 ampliada,Regressão Logística,pressao_sistolica,0.0005128303136864409,0.0010210613336682538
+sem_diagnostico,E4 ampliada,Regressão Logística,pressao_diastolica,-0.000241444334021379,0.0008469995797002995
+sem_diagnostico,E4 ampliada,Regressão Logística,colesterol_total,1.2741125805626475e-06,0.0010504700866670773
+sem_diagnostico,E4 ampliada,Regressão Logística,atv_moderada_min_semana,8.090614886728798e-05,0.0002820375619900328
+sem_diagnostico,E4 ampliada,Regressão Logística,atv_vigorosa_min_semana,9.492138725375465e-05,0.00015154576976770035
+sem_diagnostico,E4 ampliada,Regressão Logística,minutos_sedentarios_dia,0.01095099763015055,0.0029852677999485477
+sem_diagnostico,E4 ampliada,Regressão Logística,hipertensao_informada,5.0327446933184913e-05,0.0015261944928822858
+sem_diagnostico,E4 ampliada,Regressão Logística,colesterol_alto_informado,0.0017276966592767562,0.002273221449612423
+sem_diagnostico,E4 ampliada,Random Forest,idade,0.12378449659811941,0.010218134683616896
+sem_diagnostico,E4 ampliada,Random Forest,sexo_homem,0.0023169737277986212,0.0018732922670052165
+sem_diagnostico,E4 ampliada,Random Forest,imc,0.04685294192594856,0.008733533474103215
+sem_diagnostico,E4 ampliada,Random Forest,pressao_sistolica,0.00742043166934232,0.0029960789164997265
+sem_diagnostico,E4 ampliada,Random Forest,pressao_diastolica,-0.0018812272252376361,0.0016553881654685792
+sem_diagnostico,E4 ampliada,Random Forest,colesterol_total,0.0035598705501618142,0.0042468379874414175
+sem_diagnostico,E4 ampliada,Random Forest,atv_moderada_min_semana,0.006518997018576544,0.0027428658883280766
+sem_diagnostico,E4 ampliada,Random Forest,atv_vigorosa_min_semana,0.009332237596514059,0.0038021165916213105
+sem_diagnostico,E4 ampliada,Random Forest,minutos_sedentarios_dia,0.010540733379201394,0.0026138679659967437
+sem_diagnostico,E4 ampliada,Random Forest,hipertensao_informada,0.00693881711388018,0.003190256543312869
+sem_diagnostico,E4 ampliada,Random Forest,colesterol_alto_informado,0.0009275539586677927,0.0029497442615063142
+sem_diagnostico,E5 jejum sem glicose,Regressão Logística,idade,0.12672385753781118,0.01755361911953323
+sem_diagnostico,E5 jejum sem glicose,Regressão Logística,sexo_homem,-0.0030004878842086803,0.0007379668656876424
+sem_diagnostico,E5 jejum sem glicose,Regressão Logística,imc,0.06581354691819821,0.01707718935941623
+sem_diagnostico,E5 jejum sem glicose,Regressão Logística,pressao_sistolica,0.001638477801268634,0.0011122202521741994
+sem_diagnostico,E5 jejum sem glicose,Regressão Logística,pressao_diastolica,0.010121564482029721,0.0038827286648225293
+sem_diagnostico,E5 jejum sem glicose,Regressão Logística,colesterol_total,-0.0017319889412911738,0.001497172239408236
+sem_diagnostico,E5 jejum sem glicose,Random Forest,idade,0.09134818669702388,0.01608402913387052
+sem_diagnostico,E5 jejum sem glicose,Random Forest,sexo_homem,0.003016750691169279,0.002241676926850625
+sem_diagnostico,E5 jejum sem glicose,Random Forest,imc,0.06671409985363472,0.018954260087935763
+sem_diagnostico,E5 jejum sem glicose,Random Forest,pressao_sistolica,0.020369165718002902,0.007542200004556294
+sem_diagnostico,E5 jejum sem glicose,Random Forest,pressao_diastolica,0.0007053992519108543,0.00622219124020761
+sem_diagnostico,E5 jejum sem glicose,Random Forest,colesterol_total,0.0031834444625142176,0.00838015101024001
+sem_diagnostico,E6 jejum com glicose,Regressão Logística,idade,0.09030939990242318,0.013045734733317185
+sem_diagnostico,E6 jejum com glicose,Regressão Logística,sexo_homem,0.0024983737193039813,0.0005637597971571045
+sem_diagnostico,E6 jejum com glicose,Regressão Logística,imc,0.03437550821271752,0.010770300219171655
+sem_diagnostico,E6 jejum com glicose,Regressão Logística,pressao_sistolica,0.00045535859489349574,0.0008302995165938053
+sem_diagnostico,E6 jejum com glicose,Regressão Logística,pressao_diastolica,0.005834281997072699,0.002692326602481947
+sem_diagnostico,E6 jejum com glicose,Regressão Logística,colesterol_total,-0.0022767929744673676,0.002165382212274297
+sem_diagnostico,E6 jejum com glicose,Regressão Logística,glicose_jejum,0.09194177915108148,0.015529657641364299
+sem_diagnostico,E6 jejum com glicose,Random Forest,idade,0.06235566758822565,0.0170493766357468
+sem_diagnostico,E6 jejum com glicose,Random Forest,sexo_homem,0.0024841437632134753,0.0014208100680360705
+sem_diagnostico,E6 jejum com glicose,Random Forest,imc,0.022733371279882876,0.013969999218972315
+sem_diagnostico,E6 jejum com glicose,Random Forest,pressao_sistolica,0.011566921450642309,0.0038860431526282217
+sem_diagnostico,E6 jejum com glicose,Random Forest,pressao_diastolica,-0.0045535859489348575,0.004252197312036703
+sem_diagnostico,E6 jejum com glicose,Random Forest,colesterol_total,0.003089933322491423,0.005477550524972183
+sem_diagnostico,E6 jejum com glicose,Random Forest,glicose_jejum,0.0985993657505285,0.01923018912889886

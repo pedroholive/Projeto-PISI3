@@ -1,0 +1,8 @@
+.sim-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 18px; }
+.sim-campo { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.sim-label { font-size: 13px; font-weight: 600; color: #173F3A; }
+.sim-sub { font-size: 11px; color: #64736E; }
+.sim-input { height: 38px; padding: 0 10px; border: 1px solid #CCCCCC; border-radius: 4px; font-size: 14px; color: #173F3A; background: #FFFFFF; width: 100%; box-sizing: border-box; }
+.sim-botao { margin: 6px 0 18px; padding: 14px 28px; border: 0; border-radius: 12px; background: #0E766D; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer; }
+.sim-botao:hover { background: #0B5F58; }
+@media (max-width: 900px) { .sim-grid { grid-template-columns: 1fr; } }
