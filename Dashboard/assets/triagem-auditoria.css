@@ -1,0 +1,72 @@
+/* Auditoria E7 — extensões visuais exclusivas da página /triagem. */
+.tr-auditoria-cabecalho {
+    margin-top: 12px;
+}
+.tr-auditoria-titulo {
+    margin: 0 0 10px;
+    color: #173F3A;
+    font-size: clamp(21px, 2.3vw, 27px);
+    font-weight: 750;
+}
+.tr-shap-abas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 18px;
+}
+.tr-shap-abas label {
+    gap: 7px;
+    cursor: pointer;
+    padding: 9px 12px;
+    border: 1px solid #D7EAE4;
+    border-radius: 10px;
+    color: #173F3A;
+    background: #F4F8F7;
+    font-size: 13px;
+    font-weight: 600;
+}
+.tr-shap-abas label:has(input:checked) {
+    color: #0E766D;
+    border-color: #0E766D;
+    background: #E8F2F0;
+}
+.tr-shap-abas input {
+    accent-color: #0E766D;
+}
+.tr-shap-figura {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tr-auditoria-imagem {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 560px;
+    object-fit: contain;
+}
+.tr-auditoria-destaque {
+    margin: 8px 0 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #52615E;
+    line-height: 1.5;
+}
+.tr-auditoria-filtros {
+    margin: 14px 0 18px;
+    box-shadow: none;
+    padding: 14px 16px;
+}
+.tr-justica-resultados {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+@media (max-width: 760px) {
+    .tr-shap-abas label { width: 100%; }
+    .tr-shap-figura { min-height: 200px; }
+    .tr-auditoria-filtros { padding: 14px; }
+}

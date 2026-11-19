@@ -1,0 +1,13 @@
+modelo,eixo,metrica,gap_max_menos_min,n_grupos_validos
+Regressão Logística,sexo,recall_sensibilidade,0.0022594614950103287,2
+Regressão Logística,sexo,taxa_falsos_positivos,0.03363087284194777,2
+Regressão Logística,sexo,precisao_positiva,0.005675259715275105,2
+Regressão Logística,faixa_etaria,recall_sensibilidade,0.6507760532150776,3
+Regressão Logística,faixa_etaria,taxa_falsos_positivos,0.6517096190224356,3
+Regressão Logística,faixa_etaria,precisao_positiva,0.24839124839124843,3
+Random Forest,sexo,recall_sensibilidade,0.04525199271951297,2
+Random Forest,sexo,taxa_falsos_positivos,0.0696242450157678,2
+Random Forest,sexo,precisao_positiva,0.07948717948717948,2
+Random Forest,faixa_etaria,recall_sensibilidade,0.5404656319290466,3
+Random Forest,faixa_etaria,taxa_falsos_positivos,0.47572361328641455,3
+Random Forest,faixa_etaria,precisao_positiva,0.08770764119601332,3

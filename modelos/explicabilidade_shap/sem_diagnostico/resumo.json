@@ -1,0 +1,13 @@
+{
+  "experimento": "E7 + cintura e HDL",
+  "modelo": "Random Forest",
+  "populacao": "sem_diagnostico",
+  "alvo_positivo": "HbA1c >= 5,7",
+  "n_treino": 3488,
+  "n_teste": 872,
+  "n_explicados": 120,
+  "teste_auc": 0.7484137298371685,
+  "erro_maximo_aditividade_shap": 4.08006961549745e-15,
+  "exemplo_individual_probabilidade": 0.8383892372235481,
+  "observacao": "Amostra do teste; explicações referem-se ao modelo, não a causalidade ou diagnóstico."
+}
