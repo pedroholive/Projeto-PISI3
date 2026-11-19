@@ -1,0 +1,4 @@
+estrato,n_participantes,kmeans_grupos_existentes,hdbscan_grupos,hdbscan_min_cluster_size,hdbscan_min_samples,hdbscan_ruido_pct,hdbscan_silhouette_sem_ruido,criterio_selecao,mahalanobis_limite_dist2,mahalanobis_atipicos_pct,isolation_atipicos_pct,concordancia_ambos_pct,pca_2_componentes_variancia_pct
+E1,3152,2,2,15,5,69.16243654822335,0.21023629790330536,sem configuracao elegivel; menor percentual de ruido (exploratorio),12.832501994030027,9.930203045685278,3.013959390862944,2.7918781725888326,63.985252939497514
+E2,1401,6,2,15,5,96.1456102783726,0.27615766172271283,sem configuracao elegivel; menor percentual de ruido (exploratorio),12.832501994030027,10.492505353319057,2.9978586723768736,2.8551034975017844,60.292409527006875
+E3,649,2,0,15,5,100.0,,sem configuracao elegivel; menor percentual de ruido (exploratorio),12.832501994030027,9.399075500770417,3.0816640986132513,3.0816640986132513,60.06801710433709

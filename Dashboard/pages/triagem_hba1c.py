@@ -6,6 +6,7 @@ os resultados exportados por classificacao/classificacao_binaria.py.
 """
 
 import base64
+import json
 from pathlib import Path
 
 import dash
@@ -19,6 +20,14 @@ PASTA = ROOT / "modelos" / "classificacao_binaria"
 ARQUIVO_METRICAS = PASTA / "metricas_binaria.csv"
 ARQUIVO_IMPORTANCIA = PASTA / "importancia_variaveis.csv"
 ARQUIVO_ROC = PASTA / "curvas_roc.png"
+PASTA_SHAP = ROOT / "modelos" / "explicabilidade_shap"
+PASTA_JUSTICA = ROOT / "modelos" / "avaliacao_justica"
+
+VISOES_SHAP = {
+    "shap_global.png": "Importância global",
+    "shap_resumo.png": "Distribuição dos efeitos",
+    "shap_individual.png": "Explicação individual",
+}
 
 POPULACOES = {
     "todos": "Toda a base",
@@ -43,6 +52,8 @@ NOMES_VARIAVEIS = {
     "hipertensao_informada": "Hipertensão informada",
     "colesterol_alto_informado": "Colesterol alto informado",
     "glicose_jejum": "Glicose em jejum",
+    "cintura_cm": "Circunferência abdominal",
+    "hdl": "Colesterol HDL",
 }
 
 
@@ -210,6 +221,177 @@ def criar_roc():
 
 
 # =========================================================
+# AUDITORIA E7 — SHAP E JUSTIÇA
+# =========================================================
+
+def pasta_populacao(pasta_base, populacao):
+    """Impede que um valor não previsto seja usado como caminho de arquivo."""
+    return pasta_base / populacao if populacao in POPULACOES else None
+
+
+def imagem_png(caminho, texto_alternativo):
+    if not caminho.is_file():
+        return aviso(
+            "Gráfico ainda não gerado. Execute o script correspondente "
+            "para esta população."
+        )
+    try:
+        codificada = base64.b64encode(caminho.read_bytes()).decode("ascii")
+    except OSError:
+        return aviso("Não foi possível abrir esta imagem.")
+    return html.Img(
+        src=f"data:image/png;base64,{codificada}",
+        alt=texto_alternativo,
+        className="tr-auditoria-imagem",
+    )
+
+
+def ler_json(caminho):
+    try:
+        with caminho.open("r", encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return {}
+
+
+def formatar_percentual(valor):
+    return "—" if pd.isna(valor) else pct(valor)
+
+
+def criar_ranking_shap(populacao):
+    pasta = pasta_populacao(PASTA_SHAP, populacao)
+    if pasta is None:
+        return aviso("População inválida.")
+    dados = carregar(pasta / "importancia_shap.csv")
+    if dados is None or dados.empty:
+        return aviso(
+            "Execute: python -m classificacao.explicabilidade_shap "
+            + ("--populacao todos" if populacao == "todos" else "")
+        )
+    if not {"variavel", "shap_abs_medio"}.issubset(dados.columns):
+        return aviso("O CSV do SHAP não contém as colunas esperadas.")
+
+    resumo = ler_json(pasta / "resumo.json")
+    topo = dados.sort_values("shap_abs_medio", ascending=False).head(8)
+    linhas = [
+        html.Tr([
+            html.Td(NOMES_VARIAVEIS.get(r.variavel, r.variavel)),
+            html.Td(numero(r.shap_abs_medio, 4)),
+        ])
+        for _, r in topo.iterrows()
+    ]
+    informacoes = []
+    if resumo.get("n_explicados") is not None:
+        informacoes.append(
+            html.P(f"Observações explicadas: {resumo['n_explicados']}",
+                   className="tr-auditoria-destaque")
+        )
+    if resumo.get("teste_auc") is not None:
+        informacoes.append(
+            html.P(f"AUC da Random Forest no teste: {numero(resumo['teste_auc'])}",
+                   className="tr-auditoria-destaque")
+        )
+    return html.Div([
+        *informacoes,
+        html.Div(html.Table([
+            html.Thead(html.Tr([html.Th("Variável"), html.Th("|SHAP| médio")])),
+            html.Tbody(linhas),
+        ], className="cf-table"), className="cf-table-wrap"),
+        html.P(
+            "Valores médios absolutos na probabilidade prevista; "
+            "importância não demonstra causalidade nem vazamento.",
+            className="cf-card-note",
+        ),
+    ])
+
+
+def criar_grafico_justica(recorte):
+    ordem = ("Mulher", "Homem") if recorte.eixo.iloc[0] == "sexo" else (
+        "< 40", "40–59", "60+"
+    )
+    recorte = recorte.set_index("grupo").reindex(
+        [v for v in ordem if v in recorte.grupo.to_list()]
+    ).reset_index()
+    if recorte.empty:
+        return aviso("Nenhum grupo disponível para o filtro selecionado.")
+
+    rotulos = [f"{r.grupo} (n={int(r.n)})" for _, r in recorte.iterrows()]
+    fig = go.Figure()
+    for nome, coluna, inferior, superior, cor in (
+        ("Sensibilidade", "recall_sensibilidade", "recall_ic95_inf",
+         "recall_ic95_sup", "#0E766D"),
+        ("Falsos positivos", "taxa_falsos_positivos", "fpr_ic95_inf",
+         "fpr_ic95_sup", "#E58A3A"),
+    ):
+        y = recorte[coluna].fillna(0)
+        fig.add_bar(
+            name=nome, x=rotulos, y=y,
+            marker_color=cor,
+            error_y=dict(
+                type="data", visible=True,
+                array=(recorte[superior] - recorte[coluna]).fillna(0),
+                arrayminus=(recorte[coluna] - recorte[inferior]).fillna(0),
+            ),
+            customdata=recorte[["n_positivos_reais", "n_negativos_reais"]],
+            hovertemplate=(
+                "%{x}<br>Taxa: %{y:.1%}<br>Positivos reais: %{customdata[0]}"
+                "<br>Negativos reais: %{customdata[1]}<extra>" + nome + "</extra>"
+            ),
+        )
+    fig.update_layout(
+        barmode="group", height=370,
+        margin=dict(l=10, r=10, t=12, b=30),
+        yaxis=dict(title="Proporção", tickformat=".0%", range=[0, 1.05]),
+        xaxis=dict(title="Subgrupos (tamanho no teste)"),
+        legend=dict(orientation="h", y=1.14),
+        plot_bgcolor="#FFFFFF", paper_bgcolor="#FFFFFF",
+    )
+    return dcc.Graph(figure=fig, config={"displayModeBar": False})
+
+
+def criar_tabela_justica(recorte):
+    linhas = []
+    for _, r in recorte.iterrows():
+        linhas.append(html.Tr([
+            html.Td(str(r.grupo)),
+            html.Td(int(r.n)),
+            html.Td(int(r.n_positivos_reais)),
+            html.Td(formatar_percentual(r.recall_sensibilidade)),
+            html.Td(formatar_percentual(r.precisao_positiva)),
+            html.Td(formatar_percentual(r.especificidade)),
+            html.Td(formatar_percentual(r.taxa_falsos_positivos)),
+            html.Td("—" if pd.isna(r.auc) else numero(r.auc)),
+        ]))
+    return html.Div(html.Table([
+        html.Thead(html.Tr([html.Th(c) for c in [
+            "Grupo", "N", "Positivos", "Sensibilidade", "Precisão",
+            "Especificidade", "Falsos positivos", "AUC",
+        ]])),
+        html.Tbody(linhas),
+    ], className="cf-table"), className="cf-table-wrap")
+
+
+def resumo_justica(recorte):
+    if recorte.empty:
+        return ""
+    s = recorte["recall_sensibilidade"].dropna()
+    diferenca = float((s.max() - s.min()) * 100) if len(s) > 1 else None
+    notas = []
+    if diferenca is not None:
+        notas.append(f"Diferença máxima de sensibilidade: {numero(diferenca, 1)} pontos percentuais.")
+    pequenos = recorte[recorte.n_positivos_reais < 30]
+    if not pequenos.empty:
+        nomes = ", ".join(str(x) for x in pequenos.grupo)
+        notas.append(
+            f"Atenção à incerteza: o(s) grupo(s) {nomes} "
+            "tem/têm menos de 30 positivos reais no teste."
+        )
+    return html.Div([
+        html.P(nota, className="tr-auditoria-destaque") for nota in notas
+    ])
+
+
+# =========================================================
 # LAYOUT
 # =========================================================
 
@@ -237,9 +419,9 @@ layout = html.Div(
                 html.Strong("Como interpretar: "),
                 "Ao contrário da atribuição de subperfil, o alvo aqui não é "
                 "derivado das entradas, então a AUC mede capacidade real de "
-                "separar os dois grupos. Com as variáveis que o app coleta o "
-                "desempenho é moderado (AUC entre 0,75 e 0,78). A glicemia em jejum "
-                "melhora bastante, mas exige exame laboratorial.",
+                "separar os dois grupos. Os resultados são exibidos abaixo "
+                "por experimento e população. A glicemia em jejum exige "
+                "exame laboratorial.",
             ],
             className="cf-info",
         ),
@@ -250,7 +432,7 @@ layout = html.Div(
                         html.Label("População", htmlFor="tr-populacao",
                                    className="cf-filter-label"),
                         dcc.Dropdown(
-                            id="tr-populacao", value="todos", clearable=False,
+                            id="tr-populacao", value="sem_diagnostico", clearable=False,
                             options=[{"label": n, "value": k}
                                      for k, n in POPULACOES.items()],
                         ),
@@ -305,9 +487,91 @@ layout = html.Div(
         cartao(
             "Métricas detalhadas",
             html.Div(id="tr-tabela"),
-            "Sensibilidade e especificidade com limiar 0,5 e classes balanceadas "
-            "no treino. O limiar ideal depende do custo de falso positivo e "
+            "Sensibilidade e especificidade com limiar 0,5 e pesos de classe "
+            "nos modelos supervisionados. O limiar ideal depende do custo de falso positivo e "
             "falso negativo e não foi otimizado.",
+        ),
+        html.Div(
+            [
+                html.P("AUDITORIA DOS MODELOS · EXPERIMENTO E7",
+                       className="cf-eyebrow"),
+                html.H2("Explicabilidade e justiça", className="tr-auditoria-titulo"),
+                html.P(
+                    "Resultados complementares do E7 (+ cintura e HDL), "
+                    "sincronizados com a população selecionada acima. "
+                    "O SHAP explica a Random Forest; a justiça compara "
+                    "Random Forest e Regressão Logística no teste reservado.",
+                    className="cf-intro",
+                ),
+            ],
+            className="tr-auditoria-cabecalho",
+        ),
+        html.Div(
+            [
+                cartao(
+                    "SHAP · explicações do E7",
+                    html.Div([
+                        dcc.RadioItems(
+                            id="tr-shap-visao",
+                            options=[{"label": rotulo, "value": arquivo}
+                                     for arquivo, rotulo in VISOES_SHAP.items()],
+                            value="shap_global.png",
+                            className="tr-shap-abas",
+                            labelStyle={"display": "inline-flex", "alignItems": "center"},
+                        ),
+                        html.Div(id="tr-shap-grafico", className="tr-shap-figura"),
+                    ]),
+                    "SHAP explica contribuições à probabilidade prevista de "
+                    "HbA1c ≥ 5,7%; não representa causalidade nem diagnóstico.",
+                ),
+                cartao(
+                    "Variáveis de maior influência",
+                    html.Div(id="tr-shap-ranking"),
+                    "Ranking na amostra de teste usada pelo script SHAP; "
+                    "pode diferir da importância por permutação acima.",
+                ),
+            ],
+            className="cf-grid",
+        ),
+        cartao(
+            "Justiça · desempenho por subgrupo",
+            html.Div([
+                html.Div([
+                    html.Div([
+                        html.Label("Modelo", htmlFor="tr-justica-modelo",
+                                   className="cf-filter-label"),
+                        dcc.Dropdown(
+                            id="tr-justica-modelo", value="Random Forest",
+                            clearable=False,
+                            options=[{"label": modelo, "value": modelo}
+                                     for modelo in COR_MODELOS],
+                        ),
+                    ], className="cf-filter-group"),
+                    html.Div([
+                        html.Label("Comparar por", htmlFor="tr-justica-eixo",
+                                   className="cf-filter-label"),
+                        dcc.Dropdown(
+                            id="tr-justica-eixo", value="faixa_etaria",
+                            clearable=False,
+                            options=[
+                                {"label": "Faixa etária", "value": "faixa_etaria"},
+                                {"label": "Sexo", "value": "sexo"},
+                            ],
+                        ),
+                    ], className="cf-filter-group"),
+                ], className="cf-filters tr-auditoria-filtros"),
+                html.Div(id="tr-justica-conteudo"),
+            ]),
+            "Sensibilidade e taxa de falsos positivos com limiar 0,5. "
+            "Barras de erro: intervalos de Wilson aproximados (95%). "
+            "Os grupos têm tamanhos e prevalências diferentes.",
+        ),
+        html.Div(
+            "Justiça: análise exploratória e não ponderada. "
+            "As diferenças observadas não provam discriminação nem ausência dela. "
+            "Os intervalos não incorporam o plano amostral complexo do NHANES. "
+            "Os resultados não devem orientar decisões clínicas individuais.",
+            className="cf-info",
         ),
         html.Div(
             "Limitações: base NHANES 2021–2023 dos EUA, sem uso dos pesos "
@@ -318,8 +582,9 @@ layout = html.Div(
             className="cf-info",
         ),
         html.P(
-            "Fonte: modelos/classificacao_binaria/ (gerado por "
-            "classificacao/classificacao_binaria.py).",
+            "Fontes: modelos/classificacao_binaria/, "
+            "modelos/explicabilidade_shap/ e modelos/avaliacao_justica/. "
+            "Resultados gerados pelos scripts em classificacao/.",
             className="cf-source",
         ),
     ],
@@ -362,3 +627,52 @@ def atualizar_importancia(populacao, experimento, modelo):
     if df_imp is None:
         return aviso("importancia_variaveis.csv não encontrado.")
     return criar_importancia(df_imp, populacao, experimento, modelo)
+
+
+@callback(
+    Output("tr-shap-grafico", "children"),
+    Output("tr-shap-ranking", "children"),
+    Input("tr-populacao", "value"),
+    Input("tr-shap-visao", "value"),
+)
+def atualizar_shap(populacao, visao):
+    pasta = pasta_populacao(PASTA_SHAP, populacao)
+    if pasta is None or visao not in VISOES_SHAP:
+        msg = aviso("Seleção inválida.")
+        return msg, msg
+    grafico = imagem_png(pasta / visao, VISOES_SHAP[visao])
+    return grafico, criar_ranking_shap(populacao)
+
+
+@callback(
+    Output("tr-justica-conteudo", "children"),
+    Input("tr-populacao", "value"),
+    Input("tr-justica-modelo", "value"),
+    Input("tr-justica-eixo", "value"),
+)
+def atualizar_justica(populacao, modelo, eixo):
+    pasta = pasta_populacao(PASTA_JUSTICA, populacao)
+    if pasta is None or modelo not in COR_MODELOS or eixo not in ("sexo", "faixa_etaria"):
+        return aviso("Seleção inválida.")
+    tabela = carregar(pasta / "justica_por_grupos.csv")
+    if tabela is None:
+        comando = "python -m classificacao.avaliacao_justica"
+        if populacao == "todos":
+            comando += " --populacao todos"
+        return aviso(f"Resultados não disponíveis. Execute: {comando}")
+    necessarias = {
+        "modelo", "eixo", "grupo", "n", "n_positivos_reais",
+        "n_negativos_reais", "recall_sensibilidade", "recall_ic95_inf",
+        "recall_ic95_sup", "taxa_falsos_positivos", "fpr_ic95_inf",
+        "fpr_ic95_sup", "precisao_positiva", "especificidade", "auc",
+    }
+    if not necessarias.issubset(tabela.columns):
+        return aviso("O CSV de justiça não contém as colunas esperadas.")
+    recorte = tabela[(tabela.modelo == modelo) & (tabela.eixo == eixo)].copy()
+    if recorte.empty:
+        return aviso("Nenhum resultado de justiça para esta seleção.")
+    return html.Div([
+        criar_grafico_justica(recorte),
+        resumo_justica(recorte),
+        criar_tabela_justica(recorte),
+    ], className="tr-justica-resultados")

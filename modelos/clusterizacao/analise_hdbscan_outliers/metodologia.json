@@ -1,0 +1,26 @@
+{
+  "base": "healthsync_perfis_cardiometabolicos.csv",
+  "semente": 42,
+  "variaveis": [
+    "idade",
+    "imc",
+    "pressao_sistolica",
+    "pressao_diastolica",
+    "colesterol_total"
+  ],
+  "escalonamento": "RobustScaler separado por estrato",
+  "hdbscan_min_cluster_size": [
+    15,
+    30,
+    50
+  ],
+  "hdbscan_min_samples": [
+    5,
+    10,
+    20
+  ],
+  "silhouette": "somente pontos atribuidos; nao comparar diretamente a silhueta K-Means",
+  "mahalanobis": "MinCovDet; distancia quadrada > chi2.ppf(0.975, df=5)",
+  "isolation_forest": "contamination=0.03 (forcada por configuracao)",
+  "aviso": "Analises exploratorias; nenhuma observacao removida e K-Means preservado"
+}

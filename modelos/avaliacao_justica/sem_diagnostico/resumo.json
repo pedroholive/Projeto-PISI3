@@ -1,0 +1,59 @@
+{
+  "experimento": "E7 + cintura e HDL",
+  "populacao": "sem_diagnostico",
+  "alvo_positivo": "HbA1c >= 5,7",
+  "limiar_probabilidade": 0.5,
+  "n_treino": 3488,
+  "n_teste": 872,
+  "modelos": {
+    "Regressão Logística": {
+      "teste_auc": 0.7315253675814796,
+      "n": 872,
+      "n_positivos_reais": 254,
+      "n_negativos_reais": 618,
+      "prevalencia_positiva": 0.29128440366972475,
+      "proporcao_prevista_positiva": 0.4701834862385321,
+      "precisao_positiva": 0.44878048780487806,
+      "recall_sensibilidade": 0.7244094488188977,
+      "recall_ic95_inf": 0.6664249905838158,
+      "recall_ic95_sup": 0.7757069229631062,
+      "especificidade": 0.6343042071197411,
+      "taxa_falsos_positivos": 0.3656957928802589,
+      "fpr_ic95_inf": 0.3286612537756105,
+      "fpr_ic95_sup": 0.40438973541520584,
+      "auc": 0.7315253675814796,
+      "vp": 184,
+      "fp": 226,
+      "vn": 392,
+      "fn": 70
+    },
+    "Random Forest": {
+      "teste_auc": 0.7484137298371685,
+      "n": 872,
+      "n_positivos_reais": 254,
+      "n_negativos_reais": 618,
+      "prevalencia_positiva": 0.29128440366972475,
+      "proporcao_prevista_positiva": 0.3211009174311927,
+      "precisao_positiva": 0.49642857142857144,
+      "recall_sensibilidade": 0.547244094488189,
+      "recall_ic95_inf": 0.4857783044079604,
+      "recall_ic95_sup": 0.6073020984440233,
+      "especificidade": 0.7718446601941747,
+      "taxa_falsos_positivos": 0.22815533980582525,
+      "fpr_ic95_inf": 0.19680853085128233,
+      "fpr_ic95_sup": 0.26286094124579196,
+      "auc": 0.7484137298371685,
+      "vp": 139,
+      "fp": 141,
+      "vn": 477,
+      "fn": 115
+    }
+  },
+  "notas": [
+    "Análise descritiva de justiça, não prova de ausência/presença de discriminação.",
+    "Sexo é usado como preditor no E7; idade também. Avaliam-se diferenças de desempenho entre grupos.",
+    "Intervalos de Wilson são aproximados e não incorporam desenho amostral complexo do NHANES.",
+    "As métricas não foram ponderadas pelos pesos amostrais do NHANES.",
+    "O limiar 0,5 é fixo; não foi otimizado usando o conjunto de teste."
+  ]
+}

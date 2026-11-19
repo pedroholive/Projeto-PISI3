@@ -1,0 +1,70 @@
+/* =========================================================
+   HEALTHSYNC — AUDITORIA DE CLUSTERIZAÇÃO
+   Complemento da página /clusterizacao
+   O CSS original permanece inalterado.
+========================================================= */
+
+.cl-audit-heading {
+    margin-top: 12px;
+}
+
+.cl-audit-title {
+    margin: 0 0 10px;
+    color: #173F3A;
+    font-size: clamp(22px, 2.5vw, 28px);
+    font-weight: 750;
+}
+
+.cl-audit-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cl-audit-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 650px;
+    object-fit: contain;
+    margin: 12px auto 0;
+}
+
+.cl-audit-outlier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.cl-audit-outlier-grid .cl-kpi {
+    background: #F8FBFA;
+    padding: 14px;
+}
+
+.cl-audit-outlier-grid .cl-kpi-value {
+    font-size: clamp(21px, 2.2vw, 27px);
+}
+
+.cl-audit-warning {
+    padding: 18px 20px;
+    border: 1px solid #E2ECE8;
+    background: #F8FBFA;
+    border-radius: 12px;
+    color: #52615E;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.cl-audit-warning p {
+    margin: 8px 0 0;
+}
+
+@media (max-width: 760px) {
+    .cl-audit-outlier-grid {
+        grid-template-columns: 1fr;
+    }
+    .cl-audit-image {
+        max-height: none;
+    }
+}

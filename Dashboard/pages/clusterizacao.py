@@ -4,6 +4,7 @@
 Não refaz treinamento nem atribui diagnóstico ou risco clínico aos clusters.
 """
 from pathlib import Path
+import base64
 
 import dash
 from dash import Input, Output, callback, dcc, html
@@ -13,6 +14,7 @@ import plotly.graph_objects as go
 
 ROOT = Path(__file__).resolve().parents[2]
 BASE = ROOT / "modelos" / "clusterizacao"
+AUDITORIA = BASE / "analise_hdbscan_outliers"
 DADOS = pd.read_csv(BASE / "healthsync_perfis_cardiometabolicos.csv")
 METRICAS = pd.read_csv(BASE / "metricas_kmeans_por_estrato.csv")
 
@@ -31,6 +33,16 @@ VARIAVEIS = {
     "atv_moderada_min_semana": "Atividade moderada (min/sem)",
     "atv_vigorosa_min_semana": "Atividade vigorosa (min/sem)",
     "minutos_sedentarios_dia": "Sedentarismo (min/dia)",
+}
+
+# Configurações selecionadas do DBSCAN no notebook original.
+# Fonte: modelos/clusterizacao/clusterizacao_healthsync_final.ipynb,
+# seção 5.3. O menor grupo foi 4, 4 e 5, respectivamente.
+# Esses resultados NÃO são recalculados pela página.
+DBSCAN_NOTEBOOK = {
+    "E1": {"grupos": 2, "ruido": 81, "menor_grupo": 4},
+    "E2": {"grupos": 2, "ruido": 42, "menor_grupo": 4},
+    "E3": {"grupos": 2, "ruido": 70, "menor_grupo": 5},
 }
 
 COLORS = [
@@ -237,6 +249,30 @@ layout = html.Div(
             "Medianas da amostra sem ponderação; as comparações "
             "não estabelecem causalidade ou significância estatística.",
         ),
+
+        # Auditoria exploratória de agrupamentos e outliers.
+        html.Div(
+            [
+                html.P(
+                    "COMPARAÇÃO DE ALGORITMOS · ANÁLISE EXPLORATÓRIA",
+                    className="cl-eyebrow",
+                ),
+                html.H2(
+                    "HDBSCAN e outliers multivariados",
+                    className="cl-audit-title",
+                ),
+                html.P(
+                    "Compare o K-Means utilizado na segmentação com "
+                    "o DBSCAN documentado no notebook e o HDBSCAN "
+                    "avaliado em diferentes configurações. "
+                    "Os outliers são observações estatisticamente "
+                    "atípicas, não diagnósticos clínicos.",
+                    className="cl-intro",
+                ),
+            ],
+            className="cl-audit-heading",
+        ),
+        html.Div(id="cl-auditoria-resultados"),
 
         # Fonte dos dados
         html.P(
@@ -676,3 +712,258 @@ def atualizar(estrato, variavel):
         tabela,
         caracterizacao,
     )
+
+
+# =========================================================
+# Auditoria complementar: HDBSCAN, DBSCAN e outliers
+# =========================================================
+
+def percentual(valor):
+    """Formata uma porcentagem com uma casa decimal."""
+    return f"{float(valor):.1f}%".replace(".", ",")
+
+
+def aviso_auditoria(mensagem):
+    return html.Div(
+        [
+            html.Strong("Resultados complementares indisponíveis"),
+            html.P(mensagem),
+            html.P(
+                "Gere-os com: python "
+                "modelos/clusterizacao/analise_hdbscan_outliers.py"
+            ),
+        ],
+        className="cl-audit-warning",
+    )
+
+
+def imagem_auditoria(codigo):
+    """Exibe o PNG gerado pelo script, sem mover arquivos para assets/."""
+    caminho = AUDITORIA / f"hdbscan_outliers_{codigo}.png"
+    if not caminho.is_file():
+        return html.P(
+            "Gráfico ainda não gerado para este estrato.",
+            className="cl-audit-warning",
+        )
+
+    imagem = base64.b64encode(caminho.read_bytes()).decode("ascii")
+    return html.Img(
+        src=f"data:image/png;base64,{imagem}",
+        alt=(
+            f"Estrato {codigo}: projeção PCA dos grupos HDBSCAN "
+            "e pontos sinalizados por Mahalanobis e Isolation Forest"
+        ),
+        className="cl-audit-image",
+    )
+
+
+def tabela_auditoria(cabecalhos, linhas):
+    return html.Div(
+        html.Table(
+            [
+                html.Thead(html.Tr([html.Th(c) for c in cabecalhos])),
+                html.Tbody([
+                    html.Tr([html.Td(valor) for valor in linha])
+                    for linha in linhas
+                ]),
+            ],
+            className="cl-table",
+        ),
+        className="cl-table-wrap",
+    )
+
+
+@callback(
+    Output("cl-auditoria-resultados", "children"),
+    Input("cl-estrato", "value"),
+)
+def atualizar_auditoria(estrato):
+    """Lê os CSVs existentes; não executa treinamento no dashboard."""
+    if estrato not in ESTRATOS:
+        estrato = list(ESTRATOS)[0]
+
+    codigo, _ = ESTRATOS[estrato]
+    arquivo_resumo = AUDITORIA / "resumo_por_estrato.csv"
+    arquivo_grade = AUDITORIA / "grade_hdbscan.csv"
+
+    if not arquivo_resumo.is_file() or not arquivo_grade.is_file():
+        return aviso_auditoria(
+            "Ainda não encontrei resumo_por_estrato.csv e "
+            "grade_hdbscan.csv na pasta de análise HDBSCAN."
+        )
+
+    try:
+        resumo = pd.read_csv(arquivo_resumo)
+        grade = pd.read_csv(arquivo_grade)
+        colunas_resumo = {
+            "estrato", "n_participantes", "kmeans_grupos_existentes",
+            "hdbscan_grupos", "hdbscan_ruido_pct", "hdbscan_min_cluster_size",
+            "hdbscan_min_samples", "hdbscan_silhouette_sem_ruido",
+            "mahalanobis_atipicos_pct", "isolation_atipicos_pct",
+            "concordancia_ambos_pct", "pca_2_componentes_variancia_pct",
+        }
+        colunas_grade = {
+            "estrato", "min_cluster_size", "min_samples", "ruido_pct"
+        }
+        if not colunas_resumo.issubset(resumo.columns):
+            raise ValueError("faltam colunas no resumo")
+        if not colunas_grade.issubset(grade.columns):
+            raise ValueError("faltam colunas na grade")
+
+        resultado = resumo.loc[resumo["estrato"] == codigo]
+        grade = grade.loc[grade["estrato"] == codigo].copy()
+        if len(resultado) != 1 or grade.empty:
+            raise ValueError("estrato não encontrado ou duplicado")
+        resultado = resultado.iloc[0]
+
+        total = len(DADOS.loc[DADOS["estrato_glicemico"] == estrato])
+        if int(resultado["n_participantes"]) != total:
+            return aviso_auditoria(
+                "A base atual e os resultados do HDBSCAN têm "
+                "quantidades diferentes de participantes. "
+                "Reexecute a análise para evitar comparações incorretas."
+            )
+
+        kmeans_grupos = int(resultado["kmeans_grupos_existentes"])
+        hdbscan_grupos = int(resultado["hdbscan_grupos"])
+        ruido_hdbscan = float(resultado["hdbscan_ruido_pct"])
+        ruido_dbscan = DBSCAN_NOTEBOOK[codigo]["ruido"] / total * 100
+
+        # O menor grupo HDBSCAN é obtido a partir dos rótulos exportados.
+        menor_hdbscan = "—"
+        individuais = AUDITORIA / "classificacao_exploratoria.csv"
+        if individuais.is_file():
+            individuais_df = pd.read_csv(individuais)
+            sub = individuais_df.loc[
+                (individuais_df["estrato"] == codigo)
+                & (individuais_df["grupo_hdbscan"] != -1)
+            ]
+            if not sub.empty:
+                menor_hdbscan = str(
+                    int(sub["grupo_hdbscan"].value_counts().min())
+                )
+
+        tabela_comparativa = tabela_auditoria(
+            ["Algoritmo", "Grupos", "Ruído", "Cobertura", "Menor grupo"],
+            [
+                ["K-Means (principal)", str(kmeans_grupos), "0,0%", "100,0%",
+                 str(int(DADOS.loc[DADOS["estrato_glicemico"] == estrato]
+                         .groupby("perfil_id").size().min()))],
+                ["DBSCAN (notebook)",
+                 str(DBSCAN_NOTEBOOK[codigo]["grupos"]),
+                 percentual(ruido_dbscan), percentual(100 - ruido_dbscan),
+                 str(DBSCAN_NOTEBOOK[codigo]["menor_grupo"])],
+                ["HDBSCAN (exploratório)", str(hdbscan_grupos),
+                 percentual(ruido_hdbscan),
+                 percentual(100 - ruido_hdbscan), menor_hdbscan],
+            ],
+        )
+
+        grade["min_samples"] = grade["min_samples"].astype(str)
+        fig = px.line(
+            grade,
+            x="min_cluster_size",
+            y="ruido_pct",
+            color="min_samples",
+            markers=True,
+            labels={
+                "min_cluster_size": "Tamanho mínimo do grupo",
+                "ruido_pct": "Observações classificadas como ruído (%)",
+                "min_samples": "min_samples",
+            },
+            color_discrete_sequence=COLORS,
+        )
+        fig.update_yaxes(range=[0, 105])
+        estilizar(fig, 340)
+        fig.update_layout(
+            legend=dict(orientation="h", y=-0.25),
+            margin=dict(l=45, r=15, t=20, b=68),
+        )
+
+        sil = resultado["hdbscan_silhouette_sem_ruido"]
+        sil_texto = "não calculável" if pd.isna(sil) else f"{sil:.3f}"
+        k = int(resultado["hdbscan_min_cluster_size"])
+        amostras = int(resultado["hdbscan_min_samples"])
+
+        return html.Div(
+            [
+                html.Div(
+                    [
+                        numero("Grupos HDBSCAN", str(hdbscan_grupos),
+                               "Na configuração selecionada"),
+                        numero("Ruído HDBSCAN", percentual(ruido_hdbscan),
+                               "Participantes sem grupo atribuído"),
+                        numero("Variância PCA (2 eixos)",
+                               percentual(resultado["pca_2_componentes_variancia_pct"]),
+                               "Apenas visualização, sem reduzir o treino"),
+                    ],
+                    className="cl-kpis",
+                ),
+                cartao(
+                    "Comparação dos algoritmos",
+                    tabela_comparativa,
+                    "DBSCAN: resultados fixados no notebook original. "
+                    "K-Means e HDBSCAN: dados do estrato atual. "
+                    "O ruído do HDBSCAN pode mudar com os parâmetros.",
+                ),
+                cartao(
+                    f"HDBSCAN e detecção de outliers · {codigo}",
+                    imagem_auditoria(codigo),
+                    "Projeções PCA 2D para visualização. "
+                    "Os outliers não foram excluídos do dataset.",
+                ),
+                html.Div(
+                    [
+                        cartao(
+                            "Outliers multivariados",
+                            html.Div(
+                                [
+                                    numero("Mahalanobis robusto",
+                                           percentual(resultado["mahalanobis_atipicos_pct"]),
+                                           "Limite exploratório qui-quadrado (97,5%)"),
+                                    numero("Isolation Forest",
+                                           percentual(resultado["isolation_atipicos_pct"]),
+                                           "Contaminação definida em 3%"),
+                                    numero("Ambos os métodos",
+                                           percentual(resultado["concordancia_ambos_pct"]),
+                                           "Interseção das sinalizações"),
+                                ],
+                                className="cl-audit-outlier-grid",
+                            ),
+                            "Métodos com critérios diferentes; "
+                            "não representam diagnósticos de saúde.",
+                        ),
+                        cartao(
+                            "Sensibilidade aos parâmetros HDBSCAN",
+                            dcc.Graph(
+                                figure=fig,
+                                config={"displayModeBar": False},
+                            ),
+                            f"Configuração exibida: min_cluster_size={k}, "
+                            f"min_samples={amostras}; silhouette dos "
+                            f"agrupados: {sil_texto}. "
+                            "A silhouette exclui o ruído e não pode ser "
+                            "comparada diretamente à do K-Means.",
+                        ),
+                    ],
+                    className="cl-grid",
+                ),
+                html.P(
+                    "Fontes: analise_hdbscan_outliers/resumo_por_estrato.csv, "
+                    "grade_hdbscan.csv e gráficos por estrato; "
+                    "DBSCAN: notebook clusterizacao_healthsync_final.ipynb, "
+                    "seção 5.3. Análises exploratórias com RobustScaler "
+                    "por estrato e cinco variáveis cardiometabólicas. "
+                    "A escolha de parâmetros do HDBSCAN não comprovou "
+                    "superioridade universal de qualquer método.",
+                    className="cl-source",
+                ),
+            ],
+            className="cl-audit-content",
+        )
+
+    except (ValueError, KeyError, TypeError, OSError) as erro:
+        return aviso_auditoria(
+            "Não foi possível ler os resultados HDBSCAN: "
+            f"{erro}. Confira os arquivos gerados."
+        )
